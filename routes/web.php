@@ -15,18 +15,23 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/login', function() {
 
+	return view('hello');
+});
 
-Route::group(['middleware' => ['api'],'prefix' => 'api',], function () {
+Route::group(['middleware' => ['web'],'prefix' => 'api',], function () {
     Route::post('register', 'UserController@register');
     Route::post('login','UserController@login');    
     
-    Route::group(['middleware' => 'jwt-auth', 'prefix' => 'v1'], function(){
+    Route::group(['prefix' => 'user'], function(){
+        Route::get('details', 'UserController@get_user_details');
         
-        Route::group(['prefix' => 'product'], function(){
-            Route::post('store', 'ProductController@store');
+    });
+
+    Route::group(['prefix' => 'product'], function(){
+        Route::post('store', 'ProductController@store');
         
-        });
     });   
 });
 

@@ -14,6 +14,7 @@ class UserController extends Controller
     public function register(Request $request)
     {        
         $input = $request->all();
+        $input['password'] = Hash::make($input['password']);
         User::create($input);
         return response()->json(['result'=>true]);
 
@@ -21,32 +22,44 @@ class UserController extends Controller
    
     public function login(Request $request)
     {
-         $input = $request->all();     
+         $input = $request->all();
 
-        if (!$token = JWTAuth::attempt($input)) {
-            return response()->json(['result' => 'wrong email or password.']);
-        }
+         if($request->is('api/mobile/*')){ //api mobile
+
+            if (!$token = JWTAuth::attempt($input)) {
+                return response()->json(['result' => 'wrong email or password.']);
+            }
             
-           return response()->json(['token' => $token]);
+            return response()->json(['token' => $token]);
+
+         } 
+
+         $user = User::where('email', '=', $input['email'])->get()->first();
+         
+         if(Hash::check($input['password'], $user->password)){
+
+            session(['id_user' => $user->id]);
+
+            return view('welcome');
+
+         }   
     }
    
     public function get_user_details(Request $request)
     {
         $input = $request->all();
-        $user = JWTAuth::toUser($input['token']);
-        return response()->json(['result' => $user]);
+        
+        if($request->is('api/mobile*')){
+            $user = JWTAuth::toUser($input['token']);
+            return response()->json(['result' => $user]);    
+        }
+
+        if(session()->has('id_user')){
+
+            return response()->json(User::find(session('id_user')));
+        }
+
+        
     }
-
-
-
-    public function getall(Request $request){
-
-        $input = $request->all();
-        $user = JWTAuth::toUser($input['token']);
-
-        return response()->json(User::all());
-
-    }
-
    
 }
