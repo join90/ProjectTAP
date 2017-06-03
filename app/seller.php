@@ -13,11 +13,4 @@ class seller extends Model
  
    	protected $hidden = ['id_user',];
 
-
-
-   	
-
-
-
-
 }

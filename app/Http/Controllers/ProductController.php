@@ -91,7 +91,7 @@ class ProductController extends Controller
         if (!is_null($seller->first())){
             $product = Product::where('seller_id', '=', $seller->first()->id)->where('id','=',$id)->get();
                 
-            if(!isnull($product->first())){
+            if(!is_null($product->first())){
                 if($request->is('api/v1/mobile/json/*'))
                     return response()->json($product->first());
 
