@@ -27,7 +27,7 @@ Route::group(['middleware' => ['web'],'prefix' => 'api',], function () {
     Route::group(['prefix' => 'v1'], function(){
         
         Route::get('/user/details', 'UserController@get_user_details');
-        
+        Route::put('/{id}','UserController@update');
     });
 
     Route::group(['prefix' => 'v1'], function(){

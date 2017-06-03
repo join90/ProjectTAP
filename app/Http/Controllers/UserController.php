@@ -65,5 +65,31 @@ class UserController extends Controller
 
         
     }
+
+    public function update(Request $request, $id){
+
+        $user = NULL;
+        $input = NULL;
+
+        if($request->is('api/v1/mobile/json*'))
+            if($id == JWTAuth::toUser($request->input('token'))->id)
+                $input = $request->except('token');
+
+        if(session()->has('id_user'))
+            if($id == session('id_user'))
+                $input = $request->all();
+
+        if(!is_null($input)){
+            $input['password'] = Hash::make($input['password']);
+            $user = User::where('id', '=', $id)->update($input);
+        }
+
+        if(!is_null($user))
+            if($request->is('api/v1/mobile/json*'))
+                return response()->json(['result' => true]);
+
+            //return view    
+        return 'null';
+    }
    
 }

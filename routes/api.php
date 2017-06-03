@@ -34,8 +34,13 @@ Route::group(['middleware' => ['api'],'prefix' => 'v1',], function () {
             });
 
             Route::group(['prefix' => 'user'], function(){
-                Route::get('details', 'UserController@get_user_details');
-            
+                Route::get('/details', 'UserController@get_user_details');
+                Route::put('/{id}','UserController@update');
+            });
+
+            Route::group(['prefix' => 'seller'], function(){
+                Route::put('/{id}', 'SellerController@update');
+
             });
         });
     });   
