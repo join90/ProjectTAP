@@ -24,14 +24,18 @@ Route::group(['middleware' => ['web'],'prefix' => 'api',], function () {
     Route::post('register', 'UserController@register');
     Route::post('login','UserController@login');    
     
-    Route::group(['prefix' => 'user'], function(){
-        Route::get('details', 'UserController@get_user_details');
+    Route::group(['prefix' => 'v1'], function(){
+        
+        Route::get('/user/details', 'UserController@get_user_details');
         
     });
 
-    Route::group(['prefix' => 'product'], function(){
-        Route::post('store', 'ProductController@store');
+    Route::group(['prefix' => 'v1'], function(){
         
+        Route::post('/product/store', 'ProductController@store');
+        Route::get('/product/index', 'ProductController@index');
+        Route::get('/product/{id}', 'ProductController@show');
+        Route::put('/product/{id}', 'ProductController@update');
     });   
 });
 

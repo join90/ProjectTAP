@@ -17,21 +17,26 @@ use Illuminate\Http\Request;
     return $request->user();
 });*/
 
-Route::group(['middleware' => ['api'],'prefix' => 'mobile',], function () {
+Route::group(['middleware' => ['api'],'prefix' => 'v1',], function () {
     
-    Route::post('register', 'UserController@register');
-    Route::post('login','UserController@login');    
-    
-    Route::group(['middleware' => 'jwt-auth', 'prefix' => 'json'], function(){
-        
-        Route::group(['prefix' => 'product'], function(){
-            Route::post('store', 'ProductController@store');
-        
-        });
+    Route::group(['prefix' => 'mobile'], function(){
 
-        Route::group(['prefix' => 'user'], function(){
-            Route::get('details', 'UserController@get_user_details');
+        Route::post('register', 'UserController@register');
+        Route::post('login','UserController@login');    
         
+        Route::group(['middleware' => 'jwt-auth', 'prefix' => 'json'], function(){
+            
+            Route::group(['prefix' => 'product'], function(){
+                Route::post('/store', 'ProductController@store');
+                Route::get('/index', 'ProductController@index');
+                Route::get('/{id}', 'ProductController@show');
+                Route::put('/{id}', 'ProductController@update');
+            });
+
+            Route::group(['prefix' => 'user'], function(){
+                Route::get('details', 'UserController@get_user_details');
+            
+            });
         });
     });   
 });

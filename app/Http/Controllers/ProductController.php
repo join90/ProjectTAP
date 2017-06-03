@@ -13,65 +13,128 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         
-        return respose()->json([Product::all()]);
+        $seller = NULL;
+
+        if($request->is('api/v1/mobile/json/*'))
+            $seller = seller::where('id_user', '=', JWTAuth::toUser($request->input('token'))->id)->get();
+        else
+           if(session()->has('id_user')) 
+                $seller = seller::where('id_user', '=', session('id_user'))->get();     
+            
+        if(!isnull($seller->first())){
+
+            $products = Product::where('seller_id','=', $seller->first()->id)->get();
+
+            if(!isnull($products->first())){
+
+                if($request->is('api/v1/mobile/json/*'))    
+                    return response()->json($products);          
+                
+                foreach ($products as $items) {
+                    echo 'id: '.$items->id.'<br>';   
+                }
+
+                //return view...
+            }
+            
+        }    
+        
+        return 'null';
     }
 
     
     public function store(Request $request)
     {
-       
-       $seller = seller::where('id_user', '=', JWTAuth::toUser($request->input('token'))->id)->get();
-       
-       $input = $request->except('token');
-       
-       $input['seller_id'] = $seller->first()->id;
+       $seller = NULL;
+       $input = NULL;
 
-       return response()->json(Product::create($input));
-    }
+       if($request->is('api/v1/mobile/json/*')){
+            $seller = seller::where('id_user', '=', JWTAuth::toUser($request->input('token'))->id)->get();
+            $input = $request->except('token');
+        }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+        else
+            if(session()->has('id_user')){
+                $seller = seller::where('id_user', '=', session('id_user'))->get();
+                $input = $request->all();
+            }
+              
+        if(!isnull($seller->first())){
+            
+            $input['seller_id'] = $seller->first()->id; 
+            Product::create($input);
+        
+            if($request->is('api/v1/mobile/json/*'))
+                return response()->json(['result' => true]);
+    
+            if(session()->has('id_user')){
+                //return view;
+            }   
+        }
+        
+        return 'null';
+    }       
+       
+
+    public function show(Request $request, $id)
     {
-        //
+        $seller = NULL;
+
+        if($request->is('api/v1/mobile/json/*'))
+            $seller = seller::where('id_user', '=', JWTAuth::toUser($request->input('token'))->id)->get();
+            
+        else
+            if(session()->has('id_user'))
+                $seller = seller::where('id_user', '=', session('id_user'))->get();
+        
+
+        if (!is_null($seller->first())){
+            $product = Product::where('seller_id', '=', $seller->first()->id)->where('id','=',$id)->get();
+                
+            if(!isnull($product->first())){
+                if($request->is('api/v1/mobile/json/*'))
+                    return response()->json($product->first());
+
+                //return view;    
+            }    
+                
+        }    
+
+        return 'null';
+
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
-        //
-    }
+        $seller = NULL;
+        $product = NULL;
+        $input = NULL;
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        if($request->is('api/v1/mobile/json/*')){
+            $seller = seller::where('id_user', '=', JWTAuth::toUser($request->input('token'))->id)->get();
+            $input = $request->except('token');
+        }
+            
+        else
+            if(session()->has('id_user'))
+                $seller = seller::where('id_user', '=', session('id_user'))->get();
+
+        if(!is_null($seller->first())){
+
+            $input['seller_id'] = $seller->first()->id; 
+            $product = Product::where('seller_id', '=', $seller->first()->id)->where('id','=',$id)->update($input);
+        
+            if($request->is('api/v1/mobile/json/*'))
+                return response()->json(['result'=> true]);
+
+            //return view;
+                
+        }
+
+        return 'null';
+
     }
+        
 }
 
