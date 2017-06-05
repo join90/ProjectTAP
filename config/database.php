@@ -110,7 +110,7 @@ return [
 
         'default' => [
             'host' => env('REDIS_HOST', 'fast.redis.cache.windows.net'),
-            'password' => env('REDIS_PASSWORD', 'H/49sdSjoKNciMpcxNkP4ldMmJZamIr63GayIj3Ahy8='),
+            'password' => env('REDIS_PASSWORD', '/oqvzREGp/kvpCsYH0wkxA8JOOGOIH4ubkO136tQ8tM='),
             'port' => env('REDIS_PORT', 6379),
             'database' => 0,
             'read_write_timeout' => 1,

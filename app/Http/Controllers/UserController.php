@@ -32,15 +32,15 @@ class UserController extends Controller
 
          if($request->is('api/v1/mobile/*')){ //api mobile
 
-            /*if(($response = Redis::get('IlTuoToken')) != null)
-                return json_decode($response, true);*/
+            if(($response = Redis::get('IlTuoToken')) != null)
+                return json_decode($response, true);
         
             if (!$token = JWTAuth::attempt($input)) {
                 return response()->json(['result' => 'wrong email or password.']);
             }
             
-            //Redis::set('IlTuoToken', json_encode(['token' => $token]));
-            
+            Redis::set('IlTuoToken', json_encode(['token' => $token]));
+            Redis::expire('IlTuoToken', 30); //dura 30 secondi
             return response()->json(['result' => $token]);
 
          } 
