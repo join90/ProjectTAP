@@ -109,10 +109,11 @@ return [
         'client' => 'predis',
 
         'default' => [
-            'host' => env('REDIS_HOST', '127.0.0.1'),
-            'password' => env('REDIS_PASSWORD', null),
+            'host' => env('REDIS_HOST', 'fast.redis.cache.windows.net'),
+            'password' => env('REDIS_PASSWORD', 'H/49sdSjoKNciMpcxNkP4ldMmJZamIr63GayIj3Ahy8='),
             'port' => env('REDIS_PORT', 6379),
             'database' => 0,
+            'read_write_timeout' => 1,
         ],
 
     ],

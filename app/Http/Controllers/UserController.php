@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use App\User;
 use Hash;
 use JWTAuth;
+use Illuminate\Support\Facades\Redis;
 
 
 class UserController extends Controller
@@ -27,18 +28,25 @@ class UserController extends Controller
     public function login(Request $request)
     {
          $input = $request->all();
+         $response = NULL;
 
          if($request->is('api/v1/mobile/*')){ //api mobile
 
+            /*if(($response = Redis::get('IlTuoToken')) != null)
+                return json_decode($response, true);*/
+        
             if (!$token = JWTAuth::attempt($input)) {
                 return response()->json(['result' => 'wrong email or password.']);
             }
             
-            return response()->json(['token' => $token]);
+            //Redis::set('IlTuoToken', json_encode(['token' => $token]));
+            
+            return response()->json(['result' => $token]);
 
          } 
 
          $user = User::where('email', '=', $input['email'])->get()->first();
+           
          
          if(Hash::check($input['password'], $user->password)){
 
@@ -47,6 +55,16 @@ class UserController extends Controller
             return view('welcome');
 
          }   
+
+
+         /*$redis->set('user_details', json_encode(array('first_name' => 'Alex', 
+                                              'last_name' => 'Richards'
+                                              )
+                                       )
+           );*/
+          
+
+          
     }
    
     public function get_user_details(Request $request)
