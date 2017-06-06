@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Events\UpdateProduct;
 use App\seller;
 use JWTAuth;
+use Illuminate\Support\Facades\Redis;
+
 
 class SellerController extends Controller
 {
@@ -13,24 +15,35 @@ class SellerController extends Controller
 
     	$seller = NULL;
     	$input = NULL;
-    	
+    	$user_id = NULL; 
+
     	if($request->is('api/v1/mobile/json/*')){
     		$input = $request->except('token');
-    		$seller = seller::where('id_user', '=', JWTAuth::toUser($request->input('token'))->id)
-    						->where('id', '=', $id)->get();
+            $user_id = JWTAuth::toUser($request->input('token'))->id;
+
+    		/*$seller = seller::where('id_user', '=', JWTAuth::toUser($request->input('token'))->id)
+    						->where('id', '=', $id)->get();*/
+            $seller = json_decode(Redis::get($user_id),true);                
     	}
 
     	else{
-    		if(session()->has('id_user'))
-				$seller = seller::where('id_user', '=', session('id_user'))->where('id','=', $id)->get();    			
-    		$input = $request->all();
+    		
+            if(session()->has('user')){
+                $user_id = session('user');
+				$seller = json_decode(Redis::get($user_id),true);    			
+            }
+    		
+            $input = $request->all();
     	}
 
-    	if(!is_null($seller->first())) {
+    	if(!is_null($seller)) {
 
-    		seller::where('id','=',$id)->update($input);
+    		seller::where('id','=',$seller['id'])->update($input);
 
-    		if(($seller->first()->presente) != $input['presente'])
+            Redis::set($user_id, json_encode($seller));
+            Redis::expire($user_id, 3610);
+
+            if(($seller['presente']) != $input['presente'])
     			event(new UpdateProduct($id, $input['presente']));
     	}
 

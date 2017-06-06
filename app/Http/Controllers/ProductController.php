@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Product;
 use JWTAuth;
 use App\seller;
+use Illuminate\Support\Facades\Redis;
 
 class ProductController extends Controller
 {
@@ -16,16 +17,20 @@ class ProductController extends Controller
         $seller = NULL;
 
         if($request->is('api/v1/mobile/json/*'))
-            $seller = seller::where('id_user', '=', JWTAuth::toUser($request->input('token'))->id)->get();
+            $seller = json_decode(Redis::get(JWTAuth::toUser($request->input('token'))->id),true);
         else
-           if(session()->has('id_user')) 
-                $seller = seller::where('id_user', '=', session('id_user'))->get();     
-            
-        if(!isnull($seller->first())){
+           if(session()->has('user')) 
+                $seller = json_decode(Redis::get(session('user')),true);     
+    
+    
+        if(!is_null($seller)){
 
-            $products = Product::where('seller_id','=', $seller->first()->id)->get();
+            $products = Product::where('seller_id','=', $seller['id'])->get();
 
-            if(!isnull($products->first())){
+            if(!is_null($products->first())){
+
+                Redis::set('P_'.$products->first()->id, json_encode($products));
+                Redis::expire('P_'.$products->first()->id, 3600); 
 
                 if($request->is('api/v1/mobile/json/*'))    
                     return response()->json($products);          
@@ -49,25 +54,28 @@ class ProductController extends Controller
        $input = NULL;
 
        if($request->is('api/v1/mobile/json/*')){
-            $seller = seller::where('id_user', '=', JWTAuth::toUser($request->input('token'))->id)->get();
+            $seller = json_decode(Redis::get(JWTAuth::toUser($request->input('token'))->id),true);
             $input = $request->except('token');
         }
 
         else
-            if(session()->has('id_user')){
-                $seller = seller::where('id_user', '=', session('id_user'))->get();
+            if(session()->has('user')){
+                $seller = json_decode(Redis::get(session('user')),true);
                 $input = $request->all();
             }
               
-        if(!isnull($seller->first())){
+        if(!is_null($seller)){
             
-            $input['seller_id'] = $seller->first()->id; 
-            Product::create($input);
+            $input['seller_id'] = $seller['id']; 
+            $product = Product::create($input);
+
+            Redis::set('P_'.$product->first()->id, json_encode($product));
+            Redis::expire('P_'.$product->first()->id, 3600);
         
             if($request->is('api/v1/mobile/json/*'))
                 return response()->json(['result' => true]);
     
-            if(session()->has('id_user')){
+            if(session()->has('user')){
                 //return view;
             }   
         }
@@ -79,19 +87,28 @@ class ProductController extends Controller
     public function show(Request $request, $id)
     {
         $seller = NULL;
+        $product = NULL;
 
         if($request->is('api/v1/mobile/json/*'))
-            $seller = seller::where('id_user', '=', JWTAuth::toUser($request->input('token'))->id)->get();
+            $seller = json_decode(Redis::get(JWTAuth::toUser($request->input('token'))->id),true);
             
         else
-            if(session()->has('id_user'))
-                $seller = seller::where('id_user', '=', session('id_user'))->get();
+            if(session()->has('user'))
+               $seller = json_decode(Redis::get(session('user')),true);
         
 
-        if (!is_null($seller->first())){
-            $product = Product::where('seller_id', '=', $seller->first()->id)->where('id','=',$id)->get();
+        if (!is_null($seller)){
+
+            if(($response = Redis::get('P_'.$id) != null))
+                return json_decode($response, true);
+                
+            $product = Product::where('seller_id', '=', $seller['id'])->where('id','=',$id)->get();
                 
             if(!is_null($product->first())){
+
+                Redis::set('P_'.$product->first()->id, json_encode($product));
+                Redis::expire('P_'.$product->first()->id, 3600); 
+
                 if($request->is('api/v1/mobile/json/*'))
                     return response()->json($product->first());
 
@@ -112,19 +129,23 @@ class ProductController extends Controller
         $input = NULL;
 
         if($request->is('api/v1/mobile/json/*')){
-            $seller = seller::where('id_user', '=', JWTAuth::toUser($request->input('token'))->id)->get();
+            $seller = json_decode(Redis::get(JWTAuth::toUser($request->input('token'))->id),true);
             $input = $request->except('token');
         }
             
         else
-            if(session()->has('id_user'))
-                $seller = seller::where('id_user', '=', session('id_user'))->get();
+            if(session()->has('user'))
+                $seller = json_decode(Redis::get(session('user')),true);
 
-        if(!is_null($seller->first())){
+        if(!is_null($seller)){
 
-            $input['seller_id'] = $seller->first()->id; 
-            $product = Product::where('seller_id', '=', $seller->first()->id)->where('id','=',$id)->update($input);
-        
+            $input['seller_id'] = $seller['id']; 
+
+            $product = Product::where('seller_id', '=', $seller['id'])->where('id','=',$id)->update($input);
+            
+            Redis::set('P_'.$product->first()->id, json_encode($product));
+            Redis::expire('P_'.$product->first()->id, 3600);
+
             if($request->is('api/v1/mobile/json/*'))
                 return response()->json(['result'=> true]);
 
@@ -133,6 +154,26 @@ class ProductController extends Controller
         }
 
         return 'null';
+
+    }
+
+
+    public function ShowProductAll(Request $request){ //per i clienti e non i venditori
+
+        $input = NULL;
+        $user = NULL;
+
+        if($request->is('api/v1/mobile/json/*')){
+            $user = json_decode(Redis::get(JWTAuth::toUser($request->input('token'))->id),true);
+            return response()->json(Product::all());
+        }
+            
+        else
+            if(session()->has('user')){
+                //return view...
+                
+            }
+
 
     }
         

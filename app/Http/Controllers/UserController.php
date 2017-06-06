@@ -28,59 +28,58 @@ class UserController extends Controller
     public function login(Request $request)
     {
          $input = $request->all();
-         $response = NULL;
+         $user = NULL;
+         $seller = NULL;
 
          if($request->is('api/v1/mobile/*')){ //api mobile
-
-            if(($response = Redis::get('IlTuoToken')) != null)
-                return json_decode($response, true);
         
-            if (!$token = JWTAuth::attempt($input)) {
+            if (!$token = JWTAuth::attempt($input)) 
                 return response()->json(['result' => 'wrong email or password.']);
-            }
+
+            $user = User::find(JWTAuth::toUser($token)->id)->get()->first();
+        }
+        
+        else{
             
-            Redis::set('IlTuoToken', json_encode(['token' => $token]));
-            Redis::expire('IlTuoToken', 30); //dura 30 secondi
+            $user = User::where('email', '=', $input['email'])->get()->first();
+            
+            if(!Hash::check($input['password'], $user->password))
+                return 'email o password errati';
+        }
+            
+        if($user->venditore == 1){
+            $seller = User::join('sellers','sellers.id_user','=','users.id')->where('users.id','=',$user->id)->get()->first(); 
+        
+            Redis::set($user->id, json_encode($seller));
+            Redis::expire($user->id, 3610); 
+        }
+        else{
+            Redis::set($user->id, json_encode($user));
+            Redis::expire($user->id, 3610);    
+        }
+        
+        if($request->is('api/v1/mobile/*'))
             return response()->json(['result' => $token]);
-
-         } 
-
-         $user = User::where('email', '=', $input['email'])->get()->first();
-           
-         
-         if(Hash::check($input['password'], $user->password)){
-
-            session(['id_user' => $user->id]);
-
-            return view('welcome');
-
-         }   
-
-
-         /*$redis->set('user_details', json_encode(array('first_name' => 'Alex', 
-                                              'last_name' => 'Richards'
-                                              )
-                                       )
-           );*/
           
-
-          
+        session(['user' => $user->id]);
+        return view('welcome');
     }
    
+    
     public function get_user_details(Request $request)
     {
         $input = $request->all();
         
         if($request->is('api/v1/mobile/json*')){
-            $user = JWTAuth::toUser($input['token']);
-            return response()->json(['result' => $user]);    
+            if(($response = Redis::get(JWTAuth::toUser($input['token'])->id)) != null)
+                return json_decode($response, true);
         }
 
-        if(session()->has('id_user')){
+        if(session()->has('user')){
 
-            return response()->json(User::find(session('id_user')));  //return view...
-        }
-
+            if(($response = Redis::get(session('user')) != null))
+                return json_decode($response, true);
+        }     
         
     }
 
@@ -88,6 +87,7 @@ class UserController extends Controller
 
         $user = NULL;
         $input = NULL;
+        $seller = NULL;
 
         if($request->is('api/v1/mobile/json*'))
             if($id == JWTAuth::toUser($request->input('token'))->id)
@@ -100,6 +100,17 @@ class UserController extends Controller
         if(!is_null($input)){
             $input['password'] = Hash::make($input['password']);
             $user = User::where('id', '=', $id)->update($input);
+
+            if($user->venditore == 1){
+                $seller = User::join('sellers','sellers.id_user','=','users.id')->where('users.id','=',$user->id)->get()->first(); 
+        
+                Redis::set($user->id, json_encode($seller)); 
+            }
+            else{
+                
+                Redis::set($user->id, json_encode($user));    
+            }
+
         }
 
         if(!is_null($user))

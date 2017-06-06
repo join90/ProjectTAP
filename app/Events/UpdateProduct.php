@@ -10,6 +10,8 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use App\Product;
+use Illuminate\Support\Facades\Redis;
+
 
 class UpdateProduct
 {
@@ -22,7 +24,10 @@ class UpdateProduct
      */
     public function __construct($seller_id, $bool)
     {
-        Product::where('seller_id', '=', $seller_id)->update(['presente' => $bool]);
+        $products = Product::where('seller_id', '=', $seller_id)->update(['presente' => $bool]);
+        
+        Redis::set('P_'.$products->first()->id, json_encode($products));
+        Redis::expire('P_'.$products->first()->id, 3600);
     }
 
     /**

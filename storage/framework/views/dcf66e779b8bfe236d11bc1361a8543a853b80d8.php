@@ -2,7 +2,7 @@
 <html>
 
 <body>
-	<form action="/api/v1/mobile/login" method="post">
+	<form action="/api/login" method="post">
 		<label>
 			Email:
 			<input name="email" ="" type="text">
