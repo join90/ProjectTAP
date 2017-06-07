@@ -39,7 +39,7 @@ Route::group(['middleware' => ['api'],'prefix' => 'v1',], function () {
             });
 
             Route::group(['prefix' => 'seller'], function(){
-                Route::put('/{id}', 'SellerController@update');
+                Route::put('/update', 'SellerController@update');
 
             });
         });

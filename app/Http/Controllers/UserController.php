@@ -19,7 +19,8 @@ class UserController extends Controller
         User::create($input);
 
         if($request->is('api/v1/mobile/*')){
-            return response()->json(['result'=>true]);    
+            //return response()->json(['result'=>true]);    
+            return UserController::login($request);
         }
         
         //return view....
@@ -27,7 +28,7 @@ class UserController extends Controller
    
     public function login(Request $request)
     {
-         $input = $request->all();
+         $input = $request->only('email', 'password');
          $user = NULL;
          $seller = NULL;
 

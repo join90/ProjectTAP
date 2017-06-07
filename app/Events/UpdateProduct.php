@@ -10,31 +10,22 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use App\Product;
-use Illuminate\Support\Facades\Redis;
 
 
 class UpdateProduct
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    /**
-     * Create a new event instance.
-     *
-     * @return void
-     */
-    public function __construct($seller_id, $bool)
+    public $product;
+
+
+    public function __construct(Product $product)
     {
-        $products = Product::where('seller_id', '=', $seller_id)->update(['presente' => $bool]);
+        $this->product = $product;
         
-        Redis::set('P_'.$products->first()->id, json_encode($products));
-        Redis::expire('P_'.$products->first()->id, 3600);
     }
 
-    /**
-     * Get the channels the event should broadcast on.
-     *
-     * @return Channel|array
-     */
+    
     public function broadcastOn()
     {
         return new PrivateChannel('channel-name');

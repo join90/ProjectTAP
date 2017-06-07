@@ -6,7 +6,10 @@ use Illuminate\Http\Request;
 use App\Product;
 use JWTAuth;
 use App\seller;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redis;
+use App\Events\UpdateProduct;
+
 
 class ProductController extends Controller
 {
@@ -174,7 +177,22 @@ class ProductController extends Controller
                 
             }
 
+    }
 
+    public static function UpdateProductAll($id, $bool){
+
+       
+        DB::transaction(function() use ($id, $bool) {
+                        
+            Product::where('seller_id', '=', $id)->update(['presente' => $bool]);
+            $productS = Product::where('seller_id','=',$id)->get();
+
+            foreach ($productS as $item)
+                event(new UpdateProduct($item));
+        });
+
+        
+        
     }
         
 }

@@ -3,15 +3,16 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Events\UpdateProduct;
+use App\Product;
 use App\seller;
 use JWTAuth;
 use Illuminate\Support\Facades\Redis;
 
 
+
 class SellerController extends Controller
 {
-    public function update(Request $request, $id ){
+    public function update(Request $request){
 
     	$seller = NULL;
     	$input = NULL;
@@ -44,10 +45,11 @@ class SellerController extends Controller
             Redis::expire($user_id, 3610);
 
             if(($seller['presente']) != $input['presente'])
-    			event(new UpdateProduct($id, $input['presente']));
-    	}
+                ProductController::UpdateProductAll($seller['id'],$input['presente']);
+    	       
 
-    	
-
+        }
     }
+
+    
 }

@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Product extends Model
 {
@@ -12,4 +13,10 @@ class Product extends Model
     	'presente', 'descrizione', 'pzvenduti', 'tipo', 'seller_id',];
  
    	protected $hidden = ['seller_id',];
+
+
+   	
+
+
+
 }
