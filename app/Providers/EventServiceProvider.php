@@ -16,11 +16,6 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\Event' => [
             'App\Listeners\EventListener',
         ],
-    
-        'App\Events\UpdateProduct' => [
-            'App\Listeners\UpdatingProduct',  
-        ],
-
     ];
 
 

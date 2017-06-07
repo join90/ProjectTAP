@@ -22,14 +22,15 @@ Route::group(['middleware' => ['api'],'prefix' => 'v1',], function () {
     Route::group(['prefix' => 'mobile'], function(){
 
         Route::post('register', 'UserController@register');
-        Route::post('login','UserController@login');    
+        Route::post('login','UserController@login');
+        Route::get('redix','ProductController@Redix');    
         
         Route::group(['middleware' => 'jwt-auth', 'prefix' => 'json'], function(){
             
             Route::group(['prefix' => 'product'], function(){
                 Route::post('/store', 'ProductController@store');
                 Route::get('/index', 'ProductController@index');
-                Route::get('/{id}', 'ProductController@show');
+                Route::get('/show/{id}', 'ProductController@show');
                 Route::put('/{id}', 'ProductController@update');
             });
 

@@ -102,13 +102,14 @@ class ProductController extends Controller
 
         if (!is_null($seller)){
 
-            if(($response = Redis::get('P_'.$id) != null))
+            if(($response = Redis::get('P_'.$id) != null)){
+                //dd('sono qui');
                 return json_decode($response, true);
+            }
                 
             $product = Product::where('seller_id', '=', $seller['id'])->where('id','=',$id)->get();
-                
+            dd($product);    
             if(!is_null($product->first())){
-
                 Redis::set('P_'.$product->first()->id, json_encode($product));
                 Redis::expire('P_'.$product->first()->id, 3600); 
 
@@ -187,12 +188,25 @@ class ProductController extends Controller
             Product::where('seller_id', '=', $id)->update(['presente' => $bool]);
             $productS = Product::where('seller_id','=',$id)->get();
 
-            foreach ($productS as $item)
-                event(new UpdateProduct($item));
-        });
+            foreach ($productS as $item){
+                //event(new UpdateProduct($item));
+                Redis::set('P_'.$item->id, json_encode($item));
+                Redis::expire('P_'.$item->id, 3600);
+            }
+        }); 
+        
+        
+    }
 
-        
-        
+    
+    public function Redix (){
+
+        return json_decode(ProductController::GetRedixProduct(),true);
+    }
+
+    private function GetRedixProduct(){
+
+        return Redis::get('P_2');
     }
         
 }

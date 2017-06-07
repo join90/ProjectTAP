@@ -17,39 +17,37 @@ class SellerController extends Controller
     	$seller = NULL;
     	$input = NULL;
     	$user_id = NULL; 
+        $bool = NULL;
 
     	if($request->is('api/v1/mobile/json/*')){
     		$input = $request->except('token');
             $user_id = JWTAuth::toUser($request->input('token'))->id;
-
-    		/*$seller = seller::where('id_user', '=', JWTAuth::toUser($request->input('token'))->id)
-    						->where('id', '=', $id)->get();*/
-            $seller = json_decode(Redis::get($user_id),true);                
     	}
 
     	else{
-    		
-            if(session()->has('user')){
-                $user_id = session('user');
-				$seller = json_decode(Redis::get($user_id),true);    			
-            }
-    		
+            
+            if(session()->has('user'))
+                $user_id = session('user');    	
+
             $input = $request->all();
     	}
 
-    	if(!is_null($seller)) {
+        $seller = json_decode(Redis::get($user_id),true);
 
-    		seller::where('id','=',$seller['id'])->update($input);
+    	if(!is_null($seller)){
 
+            seller::where('id','=',$seller['id'])->update($input);
+
+            $bool = $seller['presente'];
+            $seller['presente'] = $input['presente'];
             Redis::set($user_id, json_encode($seller));
             Redis::expire($user_id, 3610);
 
-            if(($seller['presente']) != $input['presente'])
-                ProductController::UpdateProductAll($seller['id'],$input['presente']);
-    	       
-
-        }
+            if($bool != $input['presente'])
+                ProductController::UpdateProductAll($seller['id'],$input['presente']);    
+            
+        }    
+        
     }
 
-    
 }
