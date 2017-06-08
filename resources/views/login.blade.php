@@ -6,14 +6,14 @@
   <div class="col-xs-12 col-sm-8 col-md-4 col-sm-offset-2 col-md-offset-4">
     <div class="panel panel-default">
       <div class="panel-heading">
-        <h3 class="panel-title">Login</h3>
+        <h3 class="panel-title">Accesso utente</h3>
       </div>
       <div class="panel-body">
-        {{ Form::open() }}
+        {{ Form::open(['action' => 'Auth\LoginController@login', 'method' => 'post']) }}
           <div class="row">
             <div class="col-xs-6 col-sm-6 col-md-6">
               <div class="form-group">
-                {{ Form::text('user', null, array('class'=>'form-control input-sm','placeholder'=>'Username')) }}
+                {{ $usr = Form::text('user', null, array('class'=>'form-control input-sm','placeholder'=>'Username')) }}
               </div>
             </div>
           {{-- <div class="col-xs-6 col-sm-6 col-md-6">
@@ -30,7 +30,7 @@
           <div class="row">
             <div class="col-xs-6 col-sm-6 col-md-6">
               <div class="form-group">
-                {{ Form::password('password', array('class'=>'form-control input-sm','placeholder'=>'Password')) }}
+                {{ $pwd = Form::password('password', array('class'=>'form-control input-sm','placeholder'=>'Password')) }}
               </div>
             </div>
             {{--<div class="col-xs-6 col-sm-6 col-md-6">

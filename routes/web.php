@@ -17,8 +17,16 @@ Route::get('/', function () {
 
 Route::get('/login', function() {
 
-	return view('hello');
+	return view('login');
 });
+
+/*Route::get('/home', function() {
+
+    return view('home');
+});*/
+
+Route::post('home', array('uses' => 'Auth\LoginController@login'));
+
 
 Route::group(['middleware' => ['web'],'prefix' => 'api',], function () {
     Route::post('register', 'UserController@register');
