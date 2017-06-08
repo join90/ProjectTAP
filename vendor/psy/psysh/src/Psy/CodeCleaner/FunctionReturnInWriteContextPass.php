@@ -28,7 +28,6 @@ use Psy\Exception\FatalErrorException;
  */
 class FunctionReturnInWriteContextPass extends CodeCleanerPass
 {
-    const PHP55_MESSAGE = 'Cannot use isset() on the result of a function call (you can use "null !== func()" instead)';
     const EXCEPTION_MESSAGE = "Can't use function return value in write context";
 
     private $isPhp55;
@@ -54,7 +53,7 @@ class FunctionReturnInWriteContextPass extends CodeCleanerPass
             $items = $node instanceof Array_ ? $node->items : $node->args;
             foreach ($items as $item) {
                 if ($item->byRef && $this->isCallNode($item->value)) {
-                    throw new FatalErrorException(self::EXCEPTION_MESSAGE, 0, E_ERROR, null, $node->getLine());
+                    throw new FatalErrorException(self::EXCEPTION_MESSAGE);
                 }
             }
         } elseif ($node instanceof Isset_) {
@@ -63,13 +62,16 @@ class FunctionReturnInWriteContextPass extends CodeCleanerPass
                     continue;
                 }
 
-                $msg = $this->isPhp55 ? self::PHP55_MESSAGE : self::EXCEPTION_MESSAGE;
-                throw new FatalErrorException($msg, 0, E_ERROR, null, $node->getLine());
+                if ($this->isPhp55) {
+                    throw new FatalErrorException('Cannot use isset() on the result of a function call (you can use "null !== func()" instead)');
+                } else {
+                    throw new FatalErrorException(self::EXCEPTION_MESSAGE);
+                }
             }
         } elseif ($node instanceof Empty_ && !$this->isPhp55 && $this->isCallNode($node->expr)) {
-            throw new FatalErrorException(self::EXCEPTION_MESSAGE, 0, E_ERROR, null, $node->getLine());
+            throw new FatalErrorException(self::EXCEPTION_MESSAGE);
         } elseif ($node instanceof Assign && $this->isCallNode($node->var)) {
-            throw new FatalErrorException(self::EXCEPTION_MESSAGE, 0, E_ERROR, null, $node->getLine());
+            throw new FatalErrorException(self::EXCEPTION_MESSAGE);
         }
     }
 

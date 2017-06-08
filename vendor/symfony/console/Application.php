@@ -14,7 +14,6 @@ namespace Symfony\Component\Console;
 use Symfony\Component\Console\Exception\ExceptionInterface;
 use Symfony\Component\Console\Formatter\OutputFormatter;
 use Symfony\Component\Console\Helper\DebugFormatterHelper;
-use Symfony\Component\Console\Helper\Helper;
 use Symfony\Component\Console\Helper\ProcessHelper;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
@@ -34,7 +33,6 @@ use Symfony\Component\Console\Command\ListCommand;
 use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Helper\FormatterHelper;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
-use Symfony\Component\Console\Event\ConsoleErrorEvent;
 use Symfony\Component\Console\Event\ConsoleExceptionEvent;
 use Symfony\Component\Console\Event\ConsoleTerminateEvent;
 use Symfony\Component\Console\Exception\CommandNotFoundException;
@@ -119,10 +117,6 @@ class Application
             $output = new ConsoleOutput();
         }
 
-        if (null !== $this->dispatcher && $this->dispatcher->hasListeners(ConsoleEvents::EXCEPTION)) {
-            @trigger_error(sprintf('The "ConsoleEvents::EXCEPTION" event is deprecated since Symfony 3.3 and will be removed in 4.0. Listen to the "ConsoleEvents::ERROR" event instead.'), E_USER_DEPRECATED);
-        }
-
         $this->configureIO($input, $output);
 
         try {
@@ -135,7 +129,7 @@ class Application
         }
 
         if (null !== $e) {
-            if (!$this->catchExceptions || !$x instanceof \Exception) {
+            if (!$this->catchExceptions) {
                 throw $x;
             }
 
@@ -198,26 +192,9 @@ class Application
             $input = new ArrayInput(array('command' => $this->defaultCommand));
         }
 
-        try {
-            $e = $this->runningCommand = null;
-            // the command name MUST be the first element of the input
-            $command = $this->find($name);
-        } catch (\Exception $e) {
-        } catch (\Throwable $e) {
-        }
-        if (null !== $e) {
-            if (null !== $this->dispatcher) {
-                $event = new ConsoleErrorEvent($input, $output, $e);
-                $this->dispatcher->dispatch(ConsoleEvents::ERROR, $event);
-                $e = $event->getError();
-
-                if (0 === $event->getExitCode()) {
-                    return 0;
-                }
-            }
-
-            throw $e;
-        }
+        $this->runningCommand = null;
+        // the command name MUST be the first element of the input
+        $command = $this->find($name);
 
         $this->runningCommand = $command;
         $exitCode = $this->doRunCommand($command, $input, $output);
@@ -535,7 +512,7 @@ class Application
 
         $exact = in_array($namespace, $namespaces, true);
         if (count($namespaces) > 1 && !$exact) {
-            throw new CommandNotFoundException(sprintf("The namespace \"%s\" is ambiguous.\nDid you mean one of these?\n%s", $namespace, $this->getAbbreviationSuggestions(array_values($namespaces))), array_values($namespaces));
+            throw new CommandNotFoundException(sprintf('The namespace "%s" is ambiguous (%s).', $namespace, $this->getAbbreviationSuggestions(array_values($namespaces))), array_values($namespaces));
         }
 
         return $exact ? $namespace : reset($namespaces);
@@ -591,20 +568,9 @@ class Application
 
         $exact = in_array($name, $commands, true);
         if (count($commands) > 1 && !$exact) {
-            $usableWidth = $this->terminal->getWidth() - 10;
-            $abbrevs = array_values($commands);
-            $maxLen = 0;
-            foreach ($abbrevs as $abbrev) {
-                $maxLen = max(Helper::strlen($abbrev), $maxLen);
-            }
-            $abbrevs = array_map(function ($cmd) use ($commandList, $usableWidth, $maxLen) {
-                $abbrev = str_pad($cmd, $maxLen, ' ').' '.$commandList[$cmd]->getDescription();
+            $suggestions = $this->getAbbreviationSuggestions(array_values($commands));
 
-                return Helper::strlen($abbrev) > $usableWidth ? Helper::substr($abbrev, 0, $usableWidth - 3).'...' : $abbrev;
-            }, array_values($commands));
-            $suggestions = $this->getAbbreviationSuggestions($abbrevs);
-
-            throw new CommandNotFoundException(sprintf("Command \"%s\" is ambiguous.\nDid you mean one of these?\n%s", $name, $suggestions), array_values($commands));
+            throw new CommandNotFoundException(sprintf('Command "%s" is ambiguous (%s).', $name, $suggestions), array_values($commands));
         }
 
         return $this->get($exact ? $name : reset($commands));
@@ -672,7 +638,7 @@ class Application
                 $output->isVerbose() && 0 !== ($code = $e->getCode()) ? ' ('.$code.')' : ''
             );
 
-            $len = Helper::strlen($title);
+            $len = $this->stringWidth($title);
 
             $width = $this->terminal->getWidth() ? $this->terminal->getWidth() - 1 : PHP_INT_MAX;
             // HHVM only accepts 32 bits integer in str_split, even when PHP_INT_MAX is a 64 bit integer: https://github.com/facebook/hhvm/issues/1327
@@ -683,7 +649,7 @@ class Application
             foreach (preg_split('/\r?\n/', $e->getMessage()) as $line) {
                 foreach ($this->splitStringByWidth($line, $width - 4) as $line) {
                     // pre-format lines to get the right string length
-                    $lineLength = Helper::strlen($line) + 4;
+                    $lineLength = $this->stringWidth($line) + 4;
                     $lines[] = array($line, $lineLength);
 
                     $len = max($lineLength, $len);
@@ -692,7 +658,7 @@ class Application
 
             $messages = array();
             $messages[] = $emptyLine = sprintf('<error>%s</error>', str_repeat(' ', $len));
-            $messages[] = sprintf('<error>%s%s</error>', $title, str_repeat(' ', max(0, $len - Helper::strlen($title))));
+            $messages[] = sprintf('<error>%s%s</error>', $title, str_repeat(' ', max(0, $len - $this->stringWidth($title))));
             foreach ($lines as $line) {
                 $messages[] = sprintf('<error>  %s  %s</error>', OutputFormatter::escape($line[0]), str_repeat(' ', $len - $line[1]));
             }
@@ -892,22 +858,14 @@ class Application
         } catch (\Throwable $e) {
         }
         if (null !== $e) {
-            if ($this->dispatcher->hasListeners(ConsoleEvents::EXCEPTION)) {
-                $x = $e instanceof \Exception ? $e : new FatalThrowableError($e);
-                $event = new ConsoleExceptionEvent($command, $input, $output, $x, $x->getCode());
-                $this->dispatcher->dispatch(ConsoleEvents::EXCEPTION, $event);
+            $x = $e instanceof \Exception ? $e : new FatalThrowableError($e);
+            $event = new ConsoleExceptionEvent($command, $input, $output, $x, $x->getCode());
+            $this->dispatcher->dispatch(ConsoleEvents::EXCEPTION, $event);
 
-                if ($x !== $event->getException()) {
-                    $e = $event->getException();
-                }
+            if ($x !== $event->getException()) {
+                $e = $event->getException();
             }
-            $event = new ConsoleErrorEvent($input, $output, $e, $command);
-            $this->dispatcher->dispatch(ConsoleEvents::ERROR, $event);
-            $e = $event->getError();
-
-            if (0 === $exitCode = $event->getExitCode()) {
-                $e = null;
-            }
+            $exitCode = $e->getCode();
         }
 
         $event = new ConsoleTerminateEvent($command, $input, $output, $exitCode);
@@ -986,7 +944,7 @@ class Application
      */
     private function getAbbreviationSuggestions($abbrevs)
     {
-        return '    '.implode("\n    ", $abbrevs);
+        return sprintf('%s, %s%s', $abbrevs[0], $abbrevs[1], count($abbrevs) > 2 ? sprintf(' and %d more', count($abbrevs) - 2) : '');
     }
 
     /**
@@ -1053,7 +1011,7 @@ class Application
         }
 
         $alternatives = array_filter($alternatives, function ($lev) use ($threshold) { return $lev < 2 * $threshold; });
-        ksort($alternatives, SORT_NATURAL | SORT_FLAG_CASE);
+        asort($alternatives);
 
         return array_keys($alternatives);
     }
@@ -1078,6 +1036,15 @@ class Application
         }
 
         return $this;
+    }
+
+    private function stringWidth($string)
+    {
+        if (false === $encoding = mb_detect_encoding($string, null, true)) {
+            return strlen($string);
+        }
+
+        return mb_strwidth($string, $encoding);
     }
 
     private function splitStringByWidth($string, $width)

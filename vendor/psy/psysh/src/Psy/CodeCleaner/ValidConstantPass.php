@@ -45,8 +45,7 @@ class ValidConstantPass extends NamespaceAwarePass
         if ($node instanceof ConstFetch && count($node->name->parts) > 1) {
             $name = $this->getFullyQualifiedName($node->name);
             if (!defined($name)) {
-                $msg = sprintf('Undefined constant %s', $name);
-                throw new FatalErrorException($msg, 0, E_ERROR, null, $node->getLine());
+                throw new FatalErrorException(sprintf('Undefined constant %s', $name), 0, 1, null, $node->getLine());
             }
         } elseif ($node instanceof ClassConstFetch) {
             $this->validateClassConstFetchExpression($node);
@@ -78,7 +77,7 @@ class ValidConstantPass extends NamespaceAwarePass
                 if (!defined($constName)) {
                     $constType = class_exists($className) ? 'Class' : 'Interface';
                     $msg = sprintf('%s constant \'%s\' not found', $constType, $constName);
-                    throw new FatalErrorException($msg, 0, E_ERROR, null, $stmt->getLine());
+                    throw new FatalErrorException($msg, 0, 1, null, $stmt->getLine());
                 }
             }
         }

@@ -16,12 +16,8 @@ Route::get('/', function () {
 });
 
 Route::get('/login', function() {
-    return view('login');
-});
 
-Route::group(['middleware' => ['api'],'prefix' => 'api',], function () {
-Route::get('/home', function() {
-    return view('home');
+	return view('hello');
 });
 
 Route::post('home', array('uses' => 'Auth\LoginController@login'));
@@ -47,4 +43,3 @@ Route::group(['middleware' => ['web'],'prefix' => 'api',], function () {
     });
      
 });
-

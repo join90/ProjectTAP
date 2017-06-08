@@ -60,7 +60,7 @@ abstract class AbstractPaginator implements Htmlable
     protected $pageName = 'page';
 
     /**
-     * The current path resolver callback.
+     * The current page resolver callback.
      *
      * @var \Closure
      */
