@@ -20,22 +20,29 @@ Route::get('/login', function() {
 	return view('hello');
 });
 
-Route::group(['middleware' => ['web'],'prefix' => 'api',], function () {
-    Route::post('register', 'UserController@register');
-    Route::post('login','UserController@login');    
+Route::group(['middleware' => ['api'],'prefix' => 'api',], function () {
     
+    Route::post('register', 'UserController@register');
+    Route::post('login','UserController@login');
+    Route::get('redix','ProductController@Redix');    
+                  
     Route::group(['prefix' => 'v1'], function(){
-        
-        Route::get('/user/details', 'UserController@get_user_details');
-        Route::put('/{id}','UserController@update');
+        Route::post('product/store', 'ProductController@store');
+        Route::get('product/index', 'ProductController@index');
+        Route::get('product/show/{id}', 'ProductController@show');
+        Route::put('product/{id}', 'ProductController@update');
+        Route::get('product/show', 'ProductController@ShowProductAll');
     });
 
     Route::group(['prefix' => 'v1'], function(){
-        
-        Route::post('/product/store', 'ProductController@store');
-        Route::get('/product/index', 'ProductController@index');
-        Route::get('/product/{id}', 'ProductController@show');
-        Route::put('/product/{id}', 'ProductController@update');
-    });   
+        Route::get('user/details', 'UserController@get_user_details');
+        Route::put('user/{id}','UserController@update');
+    });
+
+    Route::group(['prefix' => 'v1'], function(){
+    Route::put('seller/update', 'SellerController@update');
+
+    });
+     
 });
 
