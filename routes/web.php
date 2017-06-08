@@ -16,20 +16,15 @@ Route::get('/', function () {
 });
 
 Route::get('/login', function() {
-
-	return view('login');
+    return view('login');
 });
 
-
 Route::group(['middleware' => ['api'],'prefix' => 'api',], function () {
-
 Route::get('/home', function() {
-
     return view('home');
 });
 
 Route::post('home', array('uses' => 'Auth\LoginController@login'));
-
 
 Route::group(['middleware' => ['web'],'prefix' => 'api',], function () {
     Route::post('register', 'UserController@register');
@@ -43,15 +38,12 @@ Route::group(['middleware' => ['web'],'prefix' => 'api',], function () {
         Route::put('product/{id}', 'ProductController@update');
         Route::get('product/show', 'ProductController@ShowProductAll');
     });
-
     Route::group(['prefix' => 'v1'], function(){
         Route::get('user/details', 'UserController@get_user_details');
         Route::put('user/{id}','UserController@update');
     });
-
     Route::group(['prefix' => 'v1'], function(){
     Route::put('seller/update', 'SellerController@update');
-
     });
      
 });
