@@ -22,6 +22,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 /* BACKEND */
 Route::group(['middleware' => ['auth'],'prefix' => 'admin',], function () {    
+    
     /* DASHBOARD */
     Route::get('/', function () {
         return view('layout.backend.dashboard.index');
@@ -31,15 +32,13 @@ Route::group(['middleware' => ['auth'],'prefix' => 'admin',], function () {
     });         
     
     /* PRODUCTS */
-    Route::post('product/store', 'ProductController@store');
-    Route::get('product/index', 'ProductController@index');
-    Route::get('product/show/{id}', 'ProductController@show');
-    Route::put('product/{id}', 'ProductController@update');
-    Route::get('product/show', 'ProductController@ShowProductAll');
-    
-    /* USER */
-    Route::get('user/details', 'UserController@get_user_details');
-    Route::put('user/{id}','UserController@update');
+    Route::get('/products', 'ProductController@index');
+    Route::get('/products/new', 'ProductController@create');
+    Route::post('/products', 'ProductController@store');
+    Route::get('/products/{id}/edit', 'ProductController@edit');
+    Route::get('/products/{id}', 'ProductController@show');
+    Route::put('/products/{id}', 'ProductController@update');
+    Route::delete('/products/{id}', 'ProductController@delete');
     
     /* SHOPS */
     Route::get('/shops', 'SellerController@index');
