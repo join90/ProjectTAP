@@ -15,31 +15,39 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/login', function() {
+/* FRONTEND */
+Auth::routes();
 
-	return view('hello');
-});
+Route::get('/home', 'HomeController@index')->name('home');
 
-Route::post('home', array('uses' => 'Auth\LoginController@login'));
-
-Route::group(['middleware' => ['web'],'prefix' => 'api',], function () {
-    Route::post('register', 'UserController@register');
-    Route::post('login','UserController@login');
-    Route::get('redix','ProductController@Redix');    
-                  
-    Route::group(['prefix' => 'v1'], function(){
-        Route::post('product/store', 'ProductController@store');
-        Route::get('product/index', 'ProductController@index');
-        Route::get('product/show/{id}', 'ProductController@show');
-        Route::put('product/{id}', 'ProductController@update');
-        Route::get('product/show', 'ProductController@ShowProductAll');
+/* BACKEND */
+Route::group(['middleware' => ['auth'],'prefix' => 'admin',], function () {    
+    /* DASHBOARD */
+    Route::get('/', function () {
+        return view('layout.backend.dashboard.index');
     });
-    Route::group(['prefix' => 'v1'], function(){
-        Route::get('user/details', 'UserController@get_user_details');
-        Route::put('user/{id}','UserController@update');
-    });
-    Route::group(['prefix' => 'v1'], function(){
-    Route::put('seller/update', 'SellerController@update');
-    });
+    Route::get('/dashboard', function () {
+        return view('layout.backend.dashboard.index');
+    });         
+    
+    /* PRODUCTS */
+    Route::post('product/store', 'ProductController@store');
+    Route::get('product/index', 'ProductController@index');
+    Route::get('product/show/{id}', 'ProductController@show');
+    Route::put('product/{id}', 'ProductController@update');
+    Route::get('product/show', 'ProductController@ShowProductAll');
+    
+    /* USER */
+    Route::get('user/details', 'UserController@get_user_details');
+    Route::put('user/{id}','UserController@update');
+    
+    /* SHOPS */
+    Route::get('/shops', 'SellerController@index');
+    Route::get('/shops/new', 'SellerController@create');
+    Route::post('/shops', 'SellerController@store');
+    Route::get('/shops/{id}/edit', 'SellerController@edit');
+    Route::get('/shops/{id}', 'SellerController@show');
+    Route::put('/shops/{id}', 'SellerController@update');
+    Route::delete('/shops/{id}', 'SellerController@delete');
      
 });

@@ -13,7 +13,8 @@ return [
     |
     */
 
-    'default' => env('FILESYSTEM_DRIVER', 'local'),
+    //'default' => env('FILESYSTEM_DRIVER', 'local'),
+    'default' => 'public',
 
     /*
     |--------------------------------------------------------------------------
@@ -26,7 +27,7 @@ return [
     |
     */
 
-    'cloud' => env('FILESYSTEM_CLOUD', 's3'),
+    //'cloud' => env('FILESYSTEM_CLOUD', 's3'),
 
     /*
     |--------------------------------------------------------------------------
@@ -43,10 +44,10 @@ return [
 
     'disks' => [
 
-        'local' => [
+        /*'local' => [
             'driver' => 'local',
             'root' => storage_path('app'),
-        ],
+        ],*/
 
         'public' => [
             'driver' => 'local',
@@ -55,13 +56,13 @@ return [
             'visibility' => 'public',
         ],
 
-        's3' => [
+        /*'s3' => [
             'driver' => 's3',
             'key' => env('AWS_KEY'),
             'secret' => env('AWS_SECRET'),
             'region' => env('AWS_REGION'),
             'bucket' => env('AWS_BUCKET'),
-        ],
+        ],*/
 
     ],
 
