@@ -121,7 +121,7 @@ class ProductController extends Controller
             
         }
 
-        return response()->json($products);
+        return view('frontend/products/products', ['products' => $products]); //Dario
         
 
     }

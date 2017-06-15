@@ -36,4 +36,13 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+
+    public function login() /*Dario*/
+    {
+        if ($_POST["user"] == "admin")
+            return redirect('backend');
+        else
+            return redirect('frontend/home');
+        //return 'ciao ' . $_POST["user"];
+    }
 }
