@@ -1,4 +1,4 @@
-@extends('frontend/layout_login')
+@extends('layout/frontend/layout_login')
 
 @section('pagestyle')
 

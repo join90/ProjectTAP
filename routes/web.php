@@ -20,15 +20,15 @@ Auth::routes();
 
 Route::get('/login2', function() {    /*Dario - Temporaneo*/
 
-    return view('frontend/users/login2');
+    return view('layout/frontend/users/login2');
 });
 
 Route::get('/frontend/home', function() { /*Dario*/
 
-    return view('frontend/users/home');
+    return view('layout/frontend/users/home');
 });
 
-Route::get('frontend/products', 'ProductController@ShowProductAll'); //Dario
+Route::get('/frontend/products', 'ProductController@ShowProductAll'); //Dario
 
 /*Route::get('/frontend/products/products', function() { //Dario
 

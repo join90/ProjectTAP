@@ -1,4 +1,4 @@
-@extends('frontend/partials/navbar')
+@extends('layout/frontend/partials/navbar')
 
 @section('content')
 

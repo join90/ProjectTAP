@@ -121,7 +121,7 @@ class ProductController extends Controller
             
         }
 
-        return view('frontend/products/products', ['products' => $products]); //Dario
+        return view('layout/frontend/products/products', ['products' => $products]); //Dario
         
 
     }

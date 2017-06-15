@@ -42,7 +42,7 @@ class LoginController extends Controller
         if ($_POST["user"] == "admin")
             return redirect('backend');
         else
-            return redirect('frontend/home');
+            return redirect('/frontend/home');
         //return 'ciao ' . $_POST["user"];
     }
 }
