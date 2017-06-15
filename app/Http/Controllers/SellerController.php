@@ -8,6 +8,8 @@ use App\seller;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\DB;
+
 use Session;
 
 

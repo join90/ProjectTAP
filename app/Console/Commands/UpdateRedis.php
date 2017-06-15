@@ -4,8 +4,8 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
-use App\Http\Controllers;
-
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SellerController;
 class UpdateRedis extends Command
 {
     /**
