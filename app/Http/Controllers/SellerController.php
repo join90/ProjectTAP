@@ -165,6 +165,20 @@ class SellerController extends Controller
         return Redirect::to('/admin/shops');
     }
 
+    public static function UpdateShopsRedis(){
+
+        DB::transaction(function() {
+                        
+            $shops = seller::all();
+            
+            foreach ($shops as $item){
+
+                Redis::set('S_'.$item->id, json_encode($item));
+                Redis::expire('S_'.$item->id, 3600);
+            }
+        }); 
+    }
+
     /*public function update(Request $request)
     {
  
