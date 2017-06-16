@@ -145,7 +145,7 @@ class ProductController extends Controller
             
             foreach ($products as $item){
 
-                Redis::set('P_'.$item->id, json_encode($item));
+                Redis::set('P_'.$item->id, $item);
                 Redis::expire('P_'.$item->id, 3600);
             }
         }); 

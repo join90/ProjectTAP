@@ -22,9 +22,12 @@ class SellerController extends Controller
         $user_id = Auth::user()->id;
 
         //$shops = seller::where('id_user', $user_id)->get();
-        $shops = json_decode(Redis::get('S_'.$user_id),true);
-        
+        $shops = Redis::get('S_'.$user_id);
+       
+        //$prova = ['shops' => $shops];
+        //dd($prova['shops']);
         return view('layout.backend.shops.index', ['shops' => $shops]);
+        //return view('layout.backend.shops.index', compact('shops'));
 
     }
 
@@ -176,7 +179,7 @@ class SellerController extends Controller
             
             foreach ($shops as $item){
 
-                Redis::set('S_'.$item->id_user, json_encode($item));
+                Redis::set('S_'.$item->id_user, $item);
                 Redis::expire('S_'.$item->id_user, 3600);
             }
         }); 

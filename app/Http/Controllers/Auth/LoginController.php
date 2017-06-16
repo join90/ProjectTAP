@@ -38,7 +38,7 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
-    public function login() /*Dario*/
+    /*public function login()  Dario 
     {
     
         //return "hello world";
@@ -47,8 +47,8 @@ class LoginController extends Controller
         else
             return redirect('layout/frontend/home');
     
-        //return redirect('/admin/backend/dashboard');*/
-    }
+        //return redirect('/admin/backend/dashboard');
+    }*/
 
     public function showLoginForm()
     {
