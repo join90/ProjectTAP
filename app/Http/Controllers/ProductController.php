@@ -126,34 +126,31 @@ class ProductController extends Controller
 
     }
 
-    public static function UpdateProductAll($id, $bool){
-
-       
-        DB::transaction(function() use ($id, $bool) {
-                        
-            Product::where('seller_id', '=', $id)->update(['presente' => $bool]);
-            $productS = Product::where('seller_id','=',$id)->get();
-
-            foreach ($productS as $item){
-                //event(new UpdateProduct($item));
-                Redis::set('P_'.$item->id, json_encode($item));
-                Redis::expire('P_'.$item->id, 3600);
-            }
-        }); 
-        
-        
-    }
-
     
-    public function Redix (){
+    public function Redix (){ //only for test
 
         return json_decode(ProductController::GetRedixProduct(),true);
     }
 
-    private function GetRedixProduct(){
+    private function GetRedixProduct(){ //only for test
 
         return Redis::get('P_2');
     }
+
+    public static function UpdateProductRedis(){
+
+         DB::transaction(function() {
+                        
+            $products = Product::all();
+            
+            foreach ($products as $item){
+
+                Redis::set('P_'.$item->id, json_encode($item));
+                Redis::expire('P_'.$item->id, 3600);
+            }
+        }); 
+
+    } 
         
 }
 
