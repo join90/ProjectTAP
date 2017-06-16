@@ -11,7 +11,7 @@ class Schedule
     /**
      * All of the events on the schedule.
      *
-     * @var \Illuminate\Console\Scheduling\Event[]
+     * @var array
      */
     protected $events = [];
 
@@ -136,7 +136,7 @@ class Schedule
     /**
      * Get all of the events on the schedule.
      *
-     * @return \Illuminate\Console\Scheduling\Event[]
+     * @return array
      */
     public function events()
     {

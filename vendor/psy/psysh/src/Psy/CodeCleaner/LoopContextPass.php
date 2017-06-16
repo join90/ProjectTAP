@@ -68,24 +68,23 @@ class LoopContextPass extends CodeCleanerPass
                 $operator = $node instanceof Break_ ? 'break' : 'continue';
 
                 if ($this->loopDepth === 0) {
-                    $msg = sprintf("'%s' not in the 'loop' or 'switch' context", $operator);
-                    throw new FatalErrorException($msg, 0, E_ERROR, null, $node->getLine());
+                    throw new FatalErrorException(sprintf("'%s' not in the 'loop' or 'switch' context", $operator));
                 }
 
                 if ($node->num instanceof LNumber || $node->num instanceof DNumber) {
                     $num = $node->num->value;
                     if ($this->isPHP54 && ($node->num instanceof DNumber || $num < 1)) {
-                        $msg = sprintf("'%s' operator accepts only positive numbers", $operator);
-                        throw new FatalErrorException($msg, 0, E_ERROR, null, $node->getLine());
+                        throw new FatalErrorException(sprintf("'%s' operator accepts only positive numbers", $operator));
                     }
 
                     if ($num > $this->loopDepth) {
-                        $msg = sprintf("Cannot '%s' %d levels", $operator, $num);
-                        throw new FatalErrorException($msg, 0, E_ERROR, null, $node->getLine());
+                        throw new FatalErrorException(sprintf("Cannot '%s' %d levels", $operator, $num));
                     }
                 } elseif ($node->num && $this->isPHP54) {
-                    $msg = sprintf("'%s' operator with non-constant operand is no longer supported", $operator);
-                    throw new FatalErrorException($msg, 0, E_ERROR, null, $node->getLine());
+                    throw new FatalErrorException(sprintf(
+                        "'%s' operator with non-constant operand is no longer supported",
+                        $operator
+                    ));
                 }
                 break;
         }

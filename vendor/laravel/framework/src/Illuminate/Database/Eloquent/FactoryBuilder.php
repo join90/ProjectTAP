@@ -5,12 +5,9 @@ namespace Illuminate\Database\Eloquent;
 use Closure;
 use Faker\Generator as Faker;
 use InvalidArgumentException;
-use Illuminate\Support\Traits\Macroable;
 
 class FactoryBuilder
 {
-    use Macroable;
-
     /**
      * The model definitions in the container.
      *
@@ -95,7 +92,7 @@ class FactoryBuilder
     /**
      * Set the states to be applied to the model.
      *
-     * @param  array|mixed  $states
+     * @param  array|dynamic  $states
      * @return $this
      */
     public function states($states)
@@ -146,7 +143,7 @@ class FactoryBuilder
     protected function store($results)
     {
         $results->each(function ($model) {
-            $model->setConnection($model->newQueryWithoutScopes()->getConnection()->getName());
+            $model->setConnection($model->query()->getConnection()->getName());
 
             $model->save();
         });
