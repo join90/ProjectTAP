@@ -36,6 +36,11 @@ class ProductController extends Controller
         return null;
     }
 
+    public static function ProductAll(){
+
+        return Product::all();
+    }
+
     
     public function store(Request $request)
     {
@@ -109,7 +114,7 @@ class ProductController extends Controller
     }
 
 
-    public function ShowProductAll(Request $request){ //per i clienti e non i venditori
+    /*public function ShowProductAll(Request $request){ //per i clienti e non i venditori
 
         
         $products = Product::all();
@@ -124,7 +129,7 @@ class ProductController extends Controller
         return view('layout/frontend/products/products', ['products' => $products]); //Dario
         
 
-    }
+    }*/
 
     
     public function Redix (){ //only for test

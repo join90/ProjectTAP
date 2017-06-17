@@ -33,21 +33,21 @@
                         <?php if(count($shops) > 0): ?>
                             <?php $__currentLoopData = $shops; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $shop): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <tr>
-                                    <td><?php echo e($shop->id); ?></td>
+                                    <td><?php echo e($shop['id']); ?></td>
                                     <td>
-                                        <?php if(isset($shop->imgProfilo)): ?>
-                                            <img src="<?php echo e(asset('storage/'.$shop->imgProfilo)); ?>" style="width: 50px; height: auto;">
+                                        <?php if(isset($shop['imgProfilo'])): ?>
+                                            <img src="<?php echo e(asset('storage/'.$shop['imgProfilo'])); ?>" style="width: 50px; height: auto;">
                                         <?php endif; ?>
                                     </td>
-                                    <td><?php echo e($shop->nomeNegozio); ?></td>
-                                    <td><?php echo e($shop->descrizione); ?></td>
-                                    <td><?php echo e($shop->piva); ?></td>
-                                    <td><?php echo e($shop->GiorniApertura); ?></td>
-                                    <td><?php echo e($shop->OrariApertura); ?></td>
-                                    <td><?php echo e(($shop->presente === 1)?'Si':'No'); ?></td>
-                                    <td><a class="btn btn-small btn-info" href="<?php echo e(action('SellerController@edit', $shop->id)); ?>">Modifica</a></td>
+                                    <td><?php echo e($shop['nomeNegozio']); ?></td>
+                                    <td><?php echo e($shop['descrizione']); ?></td>
+                                    <td><?php echo e($shop['piva']); ?></td>
+                                    <td><?php echo e($shop['GiorniApertura']); ?></td>
+                                    <td><?php echo e($shop['OrariApertura']); ?></td>
+                                    <td><?php echo e(($shop['presente'] === 1)?'Si':'No'); ?></td>
+                                    <td><a class="btn btn-small btn-info" href="<?php echo e(action('SellerController@edit', $shop['id'])); ?>">Modifica</a></td>
                                     <td>
-                                        <?php echo e(Form::open(['action' => ['SellerController@delete', $shop->id]])); ?>
+                                        <?php echo e(Form::open(['action' => ['SellerController@delete', $shop['id']]])); ?>
 
                                             <?php echo e(Form::hidden('_method', 'DELETE')); ?>
 

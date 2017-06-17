@@ -35,21 +35,21 @@
                         @if (count($shops) > 0)
                             @foreach ($shops as $shop)
                                 <tr>
-                                    <td>{{ $shop->id }}</td>
+                                    <td>{{ $shop['id'] }}</td>
                                     <td>
-                                        @if(isset($shop->imgProfilo))
-                                            <img src="{{ asset('storage/'.$shop->imgProfilo) }}" style="width: 50px; height: auto;">
+                                        @if(isset($shop['imgProfilo']))
+                                            <img src="{{ asset('storage/'.$shop['imgProfilo']) }}" style="width: 50px; height: auto;">
                                         @endif
                                     </td>
-                                    <td>{{ $shop->nomeNegozio }}</td>
-                                    <td>{{ $shop->descrizione }}</td>
-                                    <td>{{ $shop->piva }}</td>
-                                    <td>{{ $shop->GiorniApertura }}</td>
-                                    <td>{{ $shop->OrariApertura }}</td>
-                                    <td>{{ ($shop->presente === 1)?'Si':'No' }}</td>
-                                    <td><a class="btn btn-small btn-info" href="{{ action('SellerController@edit', $shop->id) }}">Modifica</a></td>
+                                    <td>{{ $shop['nomeNegozio'] }}</td>
+                                    <td>{{ $shop['descrizione'] }}</td>
+                                    <td>{{ $shop['piva'] }}</td>
+                                    <td>{{ $shop['GiorniApertura'] }}</td>
+                                    <td>{{ $shop['OrariApertura'] }}</td>
+                                    <td>{{ ($shop['presente'] === 1)?'Si':'No' }}</td>
+                                    <td><a class="btn btn-small btn-info" href="{{ action('SellerController@edit', $shop['id']) }}">Modifica</a></td>
                                     <td>
-                                        {{ Form::open(['action' => ['SellerController@delete', $shop->id]]) }}
+                                        {{ Form::open(['action' => ['SellerController@delete', $shop['id']]]) }}
                                             {{ Form::hidden('_method', 'DELETE') }}
                                             {{ Form::submit('Cancella', array('class' => 'btn btn-small btn-danger')) }}
                                         {{ Form::close() }}

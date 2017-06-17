@@ -5,10 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Auth;
 use App\seller;
-use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\DB;
 
 use Session;
 
@@ -20,14 +18,16 @@ class SellerController extends Controller
     {
 
         $user_id = Auth::user()->id;
-
-        //$shops = seller::where('id_user', $user_id)->get();
-        $shops = json_decode(Redis::get('S_'.$user_id),true);
         
-        //$prova = ['shops' => $shops];
-        //dd($prova['shops']);
+        $shops = RedisController::ScanShopsForUser('*U_'.$user_id.'*');
+
         return view('layout.backend.shops.index', ['shops' => $shops]);
 
+    }
+
+    public static function AllShops(){ //for redis
+
+        return seller::all();
     }
 
     public function create() 
@@ -169,44 +169,5 @@ class SellerController extends Controller
         Session::flash('message', 'Successfully deleted the shop!');
         return Redirect::to('/admin/shops');
     }
-
-    public static function UpdateShopsRedis(){
-
-        DB::transaction(function() {
-                        
-            $shops = seller::all();
-            
-            foreach ($shops as $item){
-
-                Redis::set('S_'.$item->id_user, json_encode($item));
-                Redis::expire('S_'.$item->id_user, 3600);
-            }
-        }); 
-    }
-
-    /*public function update(Request $request)
-    {
- 
-        $bool = NULL; 
-
-        $input = $request->all();
-    	
-        $seller = json_decode(Redis::get(session('user')),true);
-
-    	if(!is_null($seller)){
-
-            seller::where('id','=',$seller['id'])->update($input);
-
-            $bool = $seller['presente'];
-            $seller['presente'] = $input['presente'];
-            Redis::set(session('user'), json_encode($seller));
-            Redis::expire(session('user'), 3610);
-
-            if($bool != $input['presente'])
-                ProductController::UpdateProductAll($seller['id'],$input['presente']);    
-            
-        }    
-        
-    }*/
 
 }
