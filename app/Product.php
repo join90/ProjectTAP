@@ -16,6 +16,10 @@ class Product extends Model
 
 
    	
+   	public function scopeSeller($query, $seller_id)
+    {
+        return $query->where('seller_id', '=', $seller_id);
+    }
 
 
 
