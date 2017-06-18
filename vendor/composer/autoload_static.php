@@ -3071,6 +3071,7 @@ class ComposerStaticInit7374b5a716dac3933bb27a71d596114e
         'Predis\\Transaction\\AbortedMultiExecException' => __DIR__ . '/..' . '/predis/predis/src/Transaction/AbortedMultiExecException.php',
         'Predis\\Transaction\\MultiExec' => __DIR__ . '/..' . '/predis/predis/src/Transaction/MultiExec.php',
         'Predis\\Transaction\\MultiExecState' => __DIR__ . '/..' . '/predis/predis/src/Transaction/MultiExecState.php',
+        'ProductTableSeeder' => __DIR__ . '/../..' . '/database/seeds/ProductTableSeeder.php',
         'Prophecy\\Argument' => __DIR__ . '/..' . '/phpspec/prophecy/src/Prophecy/Argument.php',
         'Prophecy\\Argument\\ArgumentsWildcard' => __DIR__ . '/..' . '/phpspec/prophecy/src/Prophecy/Argument/ArgumentsWildcard.php',
         'Prophecy\\Argument\\Token\\AnyValueToken' => __DIR__ . '/..' . '/phpspec/prophecy/src/Prophecy/Argument/Token/AnyValueToken.php',

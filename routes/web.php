@@ -28,12 +28,22 @@ Route::get('/frontend/home', function() { /*Dario*/
     return view('layout/frontend/users/home');
 });
 
-Route::get('/frontend/products', 'ProductController@ShowProductAll'); //Dario
 
-/*Route::get('/frontend/products/products', function() { //Dario
+Route::group(['prefix' => '/frontend/products'], function(){
+    Route::get('/index', 'ApiController@IndexProducts');
+    Route::get('/index/{id}', 'ApiController@GetProductsShop');
+    Route::get('/promo/{id}', 'ApiController@GetProductsShopPromo');
+    Route::get('/promo/', 'ApiController@GetProductsPromo');
+    Route::get('/disp/{id}', 'ApiController@GetProductsShopForDisp');
+    Route::get('/disp/', 'ApiController@GetProductsForDisp');
 
-    return view('frontend/products/products');
-}); */
+});
+
+Route::group(['prefix' => '/frontend/shops'], function(){
+    Route::get('/index', 'ApiController@IndexShops');
+    Route::get('/index/{name}', 'ApiController@NameShops');
+    Route::get('/city/{name}', 'ApiController@CittaShops');
+});
 
 Route::post('home', array('uses' => 'Auth\LoginController@login'));
 

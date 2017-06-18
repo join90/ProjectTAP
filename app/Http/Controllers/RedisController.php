@@ -13,9 +13,9 @@ class RedisController extends Controller
         DB::transaction(function() {
                         
             $shops = SellerController::AllShops();
-            foreach ($shops as $item){
-                Redis::set('U_'.$item->user_id.'_S_'.$item->id, json_encode($item));
-                Redis::expire('U_'.$item->user_id.'_S_'.$item->id, 3600);
+            foreach ($shops as $shop) {
+                Redis::set('U_'.$shop->user_id.'_S_'.$shop->id, json_encode($shop));
+                Redis::expire('U_'.$shop->user_id.'_S_'.$shop->id, 3600);                          
             }
         }); 
     }
