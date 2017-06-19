@@ -14,6 +14,10 @@ use Auth;
 
 class ProductController extends Controller
 {
+    public static function ProductAll(){
+
+        return Product::all();
+    }
     
     public function index() 
     {

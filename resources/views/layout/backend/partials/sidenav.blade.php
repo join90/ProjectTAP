@@ -23,14 +23,6 @@
                 </li>
             </ul>
         </li>
-        <li>
-            <a href="javascript:;" data-toggle="collapse" data-target="#demo3">Ordini <i class="fa fa-fw fa-caret-down"></i></a>
-            <ul id="demo3" class="collapse">
-                <li>
-                    <a href="#">Mostra</a>
-                </li>
-            </ul>
-        </li>
     </ul>
 </div>
 <!-- /.navbar-collapse -->
