@@ -15,7 +15,7 @@ class RedisController extends Controller
             $shops = SellerController::AllShops();
             foreach ($shops as $shop) {
                 Redis::set('U_'.$shop->user_id.'_S_'.$shop->id, json_encode($shop));
-                Redis::expire('U_'.$shop->user_id.'_S_'.$shop->id, 3600);                          
+                Redis::expire('U_'.$shop->user_id.'_S_'.$shop->id, 300);                          
             }
         }); 
     }
