@@ -244,7 +244,7 @@
               if (status === 'OK') {
                 if (results[1]) {
                   document.getElementById('indirizzo').value = results[0].formatted_address;
-                  document.getElementById('citta').value = results[1].formatted_address
+                  document.getElementById('citta').value = results[1].formatted_address;
                 } else {
                   console.log('No results found');
                 }
