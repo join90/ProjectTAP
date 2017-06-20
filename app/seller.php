@@ -15,7 +15,7 @@ class seller extends Model
 
    	public function scopePresente($query)
     {
-        return $query->where('presente', '=', 1);
+        return $query->where('presente', 1);
     }
 
 }

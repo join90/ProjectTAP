@@ -16,7 +16,14 @@ Route::get('/', function () {
 });
 
 /* FRONTEND */
+Route::get('/frontend/shops/index', 'ApiController@IndexShops');
+Route::get('/frontend/shops/index/{name}', 'ApiController@NameShops');
+Route::get('/frontend/shops/city/{name}', 'ApiController@CittaShops');
+Route::get('/frontend/shops/makers', 'ApiController@GetMakersShops');
+
 Auth::routes();
+
+//Route::get('/index', 'ApiController@IndexProducts');
 
 Route::get('/login2', function() {    /*Dario - Temporaneo*/
 
@@ -29,21 +36,15 @@ Route::get('/frontend/home', function() { /*Dario*/
 });
 
 
-Route::group(['prefix' => '/frontend/products'], function(){
-    Route::get('/index', 'ApiController@IndexProducts');
-    Route::get('/index/{id}', 'ApiController@GetProductsShop');
-    Route::get('/promo/{id}', 'ApiController@GetProductsShopPromo');
-    Route::get('/promo/', 'ApiController@GetProductsPromo');
-    Route::get('/disp/{id}', 'ApiController@GetProductsShopForDisp');
-    Route::get('/disp/', 'ApiController@GetProductsForDisp');
+Route::get('/frontend/products/index', 'ApiController@IndexProducts');
+Route::get('/frontend/products/index/{id}', 'ApiController@GetProductsShop');
+Route::get('/frontend/products/promo/{id}', 'ApiController@GetProductsShopPromo');
+Route::get('/frontend/products/promo/', 'ApiController@GetProductsPromo');
+Route::get('/frontend/products/disp/{id}', 'ApiController@GetProductsShopForDisp');
+Route::get('/frontend/products/disp/', 'ApiController@GetProductsForDisp');
+    
 
-});
 
-Route::group(['prefix' => '/frontend/shops'], function(){
-    Route::get('/index', 'ApiController@IndexShops');
-    Route::get('/index/{name}', 'ApiController@NameShops');
-    Route::get('/city/{name}', 'ApiController@CittaShops');
-});
 
 Route::post('home', array('uses' => 'Auth\LoginController@login'));
 
