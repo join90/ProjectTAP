@@ -145,6 +145,17 @@
 
                 </div>
                 <div class="form-group">
+                    <?php echo Form::label('presente', 'Attivo'); ?>
+
+                    <?php echo Form::checkbox('presente', 'presente', ($shop->presente == 1)?true:false); ?>
+
+                </div>            
+            </div>
+            <div class="col-md-6 col-sm-12">
+                <input id="pac-input" class="controls" type="text" placeholder="Cerca...">
+                <div id="map"></div>
+                <p>&nbsp;</p>
+                <div class="form-group">
                     <?php echo Form::label('latitudine', 'Latitudine'); ?>
 
                     <?php echo Form::text('latitudine', null, ['class' => 'form-control',  'readonly']); ?>
@@ -157,15 +168,17 @@
 
                 </div>
                 <div class="form-group">
-                    <?php echo Form::label('presente', 'Attivo'); ?>
+                    <?php echo Form::label('indirizzo', 'Indirizzo'); ?>
 
-                    <?php echo Form::checkbox('presente', 'presente', ($shop->presente == 1)?true:false); ?>
+                    <?php echo Form::text('indirizzo', null, ['class' => 'form-control',  'readonly']); ?>
 
-                </div>            
-            </div>
-            <div class="col-md-6 col-sm-12">
-                <input id="pac-input" class="controls" type="text" placeholder="Cerca...">
-                <div id="map"></div>
+                </div>
+                <div class="form-group">
+                    <?php echo Form::label('citta', 'Citta'); ?>
+
+                    <?php echo Form::text('citta', null, ['class' => 'form-control', 'readonly']); ?>
+
+                </div>
             </div>
             <div class="col-sm-12">
                 <?php echo Form::submit('Modifica', ['class' => 'btn btn-primary']); ?>
@@ -185,83 +198,92 @@
     // This example requires the Places library. Include the libraries=places
     // parameter when you first load the API. For example:
     // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
-
-    function initAutocomplete() {
-    var map = new google.maps.Map(document.getElementById('map'), {
-      center: {lat: <?php echo e($shop->latitudine); ?>, lng: <?php echo e($shop->longitudine); ?> },
-      zoom: 13,
-      mapTypeId: 'roadmap'
-    });
-
-    var marker = new google.maps.Marker({
-      map: map,
-      position: {lat: <?php echo e($shop->latitudine); ?>, lng: <?php echo e($shop->longitudine); ?> }
-    });
-
-    // Create the search box and link it to the UI element.
     var input = document.getElementById('pac-input');
-    var searchBox = new google.maps.places.SearchBox(input);
-    map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+    function initAutocomplete() {
+        var geocoder = new google.maps.Geocoder;
+        var map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: -33.8688, lng: 151.2195},
+          zoom: 13,
+          mapTypeId: 'roadmap'
+        });
 
-    // Bias the SearchBox results towards current map's viewport.
-    map.addListener('bounds_changed', function() {
-      searchBox.setBounds(map.getBounds());
-    });
+        // Create the search box and link it to the UI element.
+        
+        var searchBox = new google.maps.places.SearchBox(input);
+        map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
 
-    var markers = [];
-    // Listen for the event fired when the user selects a prediction and retrieve
-    // more details for that place.
-    searchBox.addListener('places_changed', function() {
-      var places = searchBox.getPlaces();
+        // Bias the SearchBox results towards current map's viewport.
+        map.addListener('bounds_changed', function() {
+          searchBox.setBounds(map.getBounds());
+        });
 
-      if (places.length == 0) {
-        return;
-      }
+        var markers = [];
+        // Listen for the event fired when the user selects a prediction and retrieve
+        // more details for that place.
+        searchBox.addListener('places_changed', function() {
+          var places = searchBox.getPlaces();
 
-      // Clear out the old markers.
-      markers.forEach(function(marker) {
-        marker.setMap(null);
-      });
-      markers = [];
+          if (places.length == 0) {
+            return;
+          }
 
-      // For each place, get the icon, name and location.
-      var bounds = new google.maps.LatLngBounds();
-      places.forEach(function(place) {
-        if (!place.geometry) {
-          console.log("Returned place contains no geometry");
-          return;
-        }
-        var icon = {
-          url: place.icon,
-          size: new google.maps.Size(71, 71),
-          origin: new google.maps.Point(0, 0),
-          anchor: new google.maps.Point(17, 34),
-          scaledSize: new google.maps.Size(25, 25)
-        };
+          // Clear out the old markers.
+          markers.forEach(function(marker) {
+            marker.setMap(null);
+          });
+          markers = [];
 
-        // Create a marker for each place.
-        markers.push(new google.maps.Marker({
-          map: map,
-          icon: icon,
-          title: place.name,
-          position: place.geometry.location
-        }));
+          // For each place, get the icon, name and location.
+          var bounds = new google.maps.LatLngBounds();
+          places.forEach(function(place) {
+            if (!place.geometry) {
+              console.log("Returned place contains no geometry");
+              return;
+            }
+            var icon = {
+              url: place.icon,
+              size: new google.maps.Size(71, 71),
+              origin: new google.maps.Point(0, 0),
+              anchor: new google.maps.Point(17, 34),
+              scaledSize: new google.maps.Size(25, 25)
+            };
 
-        if (place.geometry.viewport) {
-          // Only geocodes have viewport.
-          bounds.union(place.geometry.viewport);
-        } else {
-          bounds.extend(place.geometry.location);
-        }
+            // Create a marker for each place.
+            markers.push(new google.maps.Marker({
+              map: map,
+              icon: icon,
+              title: place.name,
+              position: place.geometry.location
+            }));
 
-        // popolo i campi lat e long del form
-        document.getElementById('latitudine').value = place.geometry.location.lat();
-        document.getElementById('longitudine').value = place.geometry.location.lng();
-      });
-      map.fitBounds(bounds);
-    });
+            if (place.geometry.viewport) {
+              // Only geocodes have viewport.
+              bounds.union(place.geometry.viewport);
+            } else {
+              bounds.extend(place.geometry.location);
+            }
+
+            geocoder.geocode({'location': place.geometry.location}, function(results, status) {
+              if (status === 'OK') {
+                if (results[1]) {
+                  document.getElementById('indirizzo').value = results[0].formatted_address;
+                  document.getElementById('citta').value = results[1].formatted_address;
+                } else {
+                  console.log('No results found');
+                }
+              } else {
+                console.log('Geocoder failed due to: ' + status);
+              }
+            });
+
+            // popolo i campi lat e long del form
+            document.getElementById('latitudine').value = place.geometry.location.lat();
+            document.getElementById('longitudine').value = place.geometry.location.lng();
+          });
+          map.fitBounds(bounds);
+        });
     }
 </script>
-<script src="https://maps.googleapis.com/maps/api/js?libraries=places&callback=initAutocomplete" async defer></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA983UTkguA7igNoO-SLhTPaj_ARJ_aCTE&?libraries=places&callback=initAutocomplete" async defer></script>
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('layout.backend.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
