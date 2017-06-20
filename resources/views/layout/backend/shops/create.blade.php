@@ -175,7 +175,7 @@
     // This example requires the Places library. Include the libraries=places
     // parameter when you first load the API. For example:
     // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
-
+    var input = document.getElementById('pac-input');
     function initAutocomplete() {
         var geocoder = new google.maps.Geocoder;
         var map = new google.maps.Map(document.getElementById('map'), {
@@ -185,7 +185,7 @@
         });
 
         // Create the search box and link it to the UI element.
-        var input = document.getElementById('pac-input');
+        
         var searchBox = new google.maps.places.SearchBox(input);
         map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
 
