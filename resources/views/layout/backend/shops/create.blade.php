@@ -238,5 +238,5 @@
     });
     }
 </script>
-<script src="https://maps.googleapis.com/maps/api/js?libraries=places&?key=AIzaSyC6ruGEvcF_Un1z7bTpdNMhzL_cMD7Leiw&callback=initAutocomplete" async defer></script>
+<script src="https://maps.googleapis.com/maps/api/js?libraries=places&?key=AIzaSyC-rlPEkx1wAnRC-EZrg0_Si5d6RtxMAKY&callback=initAutocomplete" async defer></script>
 @endsection  
