@@ -1,5 +1,14 @@
 @extends('layout/frontend/partials/navbar')
 
+@php
+
+/*$prodotti= array("Pomodoro Pachino","Albicocche di Monterosso","Limoni di Francofonte","Melanzane", "Spinaci","Arance di Franconfonte", "Zucchine dell'Etna","Giallo di Paceco");
+*/
+$quantities=array(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20);
+
+
+@endphp
+
 @section('subpagestyle')
 	<style>
 	/*	body {
@@ -183,10 +192,10 @@
 		<div class="card">
 			<div class="container-fliud">
 				<div class="wrapper row">
-					<div class="preview col-md-6">
+		<!--		<div class="preview col-md-6">
 						
 						<div class="preview-pic tab-content">
-						  <div class="tab-pane active" id="pic-1"><img src="{{ $product['imgProfilo'] }}"/></div>
+						  <div class="tab-pane active" id="pic-1"><img src="{{ $product['imgProfilo'] }}"/></div>  -->
 		<!--			  <div class="tab-pane" id="pic-2"><img src="http://placekitten.com/400/252" /></div>
 						  <div class="tab-pane" id="pic-3"><img src="http://placekitten.com/400/252" /></div>
 						  <div class="tab-pane" id="pic-4"><img src="http://placekitten.com/400/252" /></div>
@@ -199,9 +208,9 @@
 						  <li><a data-target="#pic-4" data-toggle="tab"><img src="http://placekitten.com/200/126" /></a></li>
 						  <li><a data-target="#pic-5" data-toggle="tab"><img src="http://placekitten.com/200/126" /></a></li>
 						</ul>  -->
-						</div>
-					</div>
-					<div class="details col-md-6">
+	<!--				</div>
+					</div> -->
+					<div class="details col-md-12">
 						<h3 class="product-title">{{ $product['titolo'] }}</h3>
 				<!--		<div class="rating">
 							<div class="stars">
@@ -213,8 +222,18 @@
 							</div>
 							<span class="review-no">41 reviews</span>
 						</div> -->
-						<p class="product-description">{{ $product['provenienza'] }}</p>
-						<h4 class="price">prezzo: <span>{{ $product['prezzo'] }}</span></h4>
+						<p class="product-description">Quantità 
+							<?php
+							$quant=array_rand($quantities, 1); 
+							echo $quant;
+							?>
+						</p>
+						<h4 class="price">Importo: <span>
+								<?php
+								 
+								echo $quant*$product['prezzo'];
+								?>
+							</span></h4>
 				<!--		<p class="vote"><strong>91%</strong> of buyers enjoyed this product! <strong>(87 votes)</strong></p> -->
 		<!--				<h5 class="sizes">sizes:
 							<span class="size" data-toggle="tooltip" title="small">s</span>
@@ -227,8 +246,7 @@
 							<span class="color green"></span>
 							<span class="color blue"></span>
 						</h5> -->
-						<div class="action">
-							<button class="add-to-cart btn btn-default" type="button">Agg. al carrello</button>
+						
 					<!--		<button class="like btn btn-default" type="button"><span class="fa fa-heart"></span></button> -->
 						</div>
 					</div>
@@ -238,6 +256,7 @@
 	</div>
 @endforeach
 
-
+<div class="action">
+							<button class="add-to-cart btn btn-default" type="button">Procedi all'acquisto</button>
 
 @stop

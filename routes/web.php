@@ -43,6 +43,7 @@ Route::get('/frontend/products/promo/', 'ApiController@GetProductsPromo');
 Route::get('/frontend/products/disp/{id}', 'ApiController@GetProductsShopForDisp');
 Route::get('/frontend/products/disp/', 'ApiController@GetProductsForDisp');
     
+Route::get('/frontend/users/cart', 'ApiController@IndexProducts');
 
 
 
