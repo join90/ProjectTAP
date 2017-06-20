@@ -30,6 +30,7 @@
     26 => 'App\\Providers\\RouteServiceProvider',
     27 => 'Tymon\\JWTAuth\\Providers\\JWTAuthServiceProvider',
     28 => 'Collective\\Html\\HtmlServiceProvider',
+    29 => 'App\\Providers\\AzureStorageServiceProvider',
   ),
   'eager' => 
   array (
@@ -48,6 +49,7 @@
     12 => 'App\\Providers\\EventServiceProvider',
     13 => 'App\\Providers\\RouteServiceProvider',
     14 => 'Tymon\\JWTAuth\\Providers\\JWTAuthServiceProvider',
+    15 => 'App\\Providers\\AzureStorageServiceProvider',
   ),
   'deferred' => 
   array (

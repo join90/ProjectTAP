@@ -178,6 +178,8 @@ return [
         App\Providers\RouteServiceProvider::class,
         Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
+        App\Providers\AzureStorageServiceProvider::class,
+
     ],
 
     /*
