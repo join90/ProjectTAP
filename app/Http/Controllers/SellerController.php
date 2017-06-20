@@ -24,6 +24,14 @@ class SellerController extends Controller
 
     }
 
+<<<<<<< HEAD
+=======
+    public static function AllShops(){ //for redis
+
+        return seller::presente()->get();
+    }
+
+>>>>>>> join90
     public function create() 
     {
         

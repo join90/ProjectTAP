@@ -10,7 +10,7 @@ class ApiController extends Controller
         
         $products = RedisController::ScanProductsForShop('*P_*'); //restituisce tutti i prodotti 
 
-    
+        return $products;
         //return view dario  
     }
 
@@ -27,7 +27,7 @@ class ApiController extends Controller
     
         $shops = RedisController::ScanShopsForUser('*S_*'); //tutti i negozi
 
-        //return view dario;
+        return $shops;
 
     }
 
@@ -123,6 +123,23 @@ class ApiController extends Controller
         }
 
         //return view dario 
+
+    }
+
+
+    public function GetMakersShops(Request $request){
+
+        $shops = RedisController::ScanShopsForUser('*S_*'); //tutti i negozi
+
+        $makers = [];
+
+        foreach ($shops as $shop) {
+            
+            $makers = array_merge($makers, [array($shop['nomeNegozio'],$shop['latitudine'],$shop['longitudine'])]);
+        }
+
+        //dd($makers);    
+        return view('layout.frontend.shops.maker', ['makers' => $makers] );
 
     }
 
