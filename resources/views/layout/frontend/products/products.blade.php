@@ -178,6 +178,12 @@
 
 @section('content')
 
+@if($seller_id>0)
+	<div>
+		<p>Elenco prodotti del negozio con id {{$seller_id}}: &nbsp</p>
+	</div>
+@endif
+
 @foreach($products as $product)
 	<div class="container">
 		<div class="card">

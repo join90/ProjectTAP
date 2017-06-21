@@ -41,8 +41,9 @@
 
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
- <!--  <li class="active">--><li><a href="./products">Prodotti <span class="sr-only">(current)</span></a></li>
-        <li><a href="#">Storico Ordini</a></li>
+ <!--  <li class="active">--><li><a href="/products/index">Prodotti <span class="sr-only">(current)</span></a></li>
+ <li><a href="/shops/makers">Mappa Rivenditori <span class="sr-only">(current)</span></a></li>
+        <li><a href="#"></a></li>
   <!--  <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
@@ -63,7 +64,7 @@
         <button type="submit" class="btn btn-default">Submit</button>
       </form> -->
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="#">Carrello</a></li>
+        <li><a href="/users/cart">Carrello</a></li>
       </ul>
     </div>
   </div>
