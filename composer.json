@@ -10,8 +10,9 @@
         "laravel/framework": "5.4.*",
         "laravel/tinker": "~1.0",
         "laravelcollective/html": "^5.4.0",
-        "predis/predis": "^1.1",
-        "tymon/jwt-auth": "^0.5.11"
+        "league/flysystem-azure": "^1.0",
+        "microsoft/windowsazure": "^0.4",
+        "predis/predis": "^1.1"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

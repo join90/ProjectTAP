@@ -14,7 +14,7 @@ return [
     */
 
     //'default' => env('FILESYSTEM_DRIVER', 'local'),
-    'default' => 'public',
+    //'default' => 'public',
 
     /*
     |--------------------------------------------------------------------------
@@ -63,7 +63,13 @@ return [
             'region' => env('AWS_REGION'),
             'bucket' => env('AWS_BUCKET'),
         ],*/
+        'azure' => [
 
+            'driver'    => 'azure',
+            'name'      => env('STORAGE_NAME'),
+            'key'       => env('STORAGE_KEY'),
+            'container' => env('STORAGE_CONTAINER'),
+        ],
     ],
 
 ];
