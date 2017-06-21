@@ -14,20 +14,14 @@ use Session;
 
 class SellerController extends Controller
 {
+
     public function index() 
     {
-
-        $user_id = Auth::user()->id;
         
-        $shops = RedisController::ScanShopsForUser('*U_'.$user_id.'*');
+        $shops = seller::where('user_id', $this->getAuthUserId())->get();
 
         return view('layout.backend.shops.index', ['shops' => $shops]);
 
-    }
-
-    public static function AllShops(){ //for redis
-
-        return seller::presente()->get();
     }
 
     public function create() 
@@ -77,13 +71,15 @@ class SellerController extends Controller
             // validazione ok, salvo sul database
             $shop = new seller;
             $shop->nomeNegozio = $request->nomeNegozio;
-            $shop->id_user = Auth::user()->id;
+            $shop->user_id = $this->getAuthUserId();
             $shop->piva = $request->piva;
             $shop->GiorniApertura = $request->GiorniApertura;
             $shop->OrariApertura = $request->OrariApertura;
             $shop->latitudine = $request->latitudine;
             $shop->longitudine = $request->longitudine;
             $shop->descrizione = $request->descrizione;
+            $shop->indirizzo = $request->indirizzo;
+            $shop->citta = $request->citta;
             $shop->presente = $request->presente;
             if(isset($file)){
                 $shop->imgProfilo = $file;
@@ -141,13 +137,14 @@ class SellerController extends Controller
             // validazione ok, salvo sul database
             $shop = seller::find($id);
             $shop->nomeNegozio = $request->nomeNegozio;
-            //$shop->id_user = Auth::user()->id;
             $shop->piva = $request->piva;
             $shop->GiorniApertura = $request->GiorniApertura;
             $shop->OrariApertura = $request->OrariApertura;
             $shop->latitudine = $request->latitudine;
             $shop->longitudine = $request->longitudine;
             $shop->descrizione = $request->descrizione;
+            $shop->indirizzo = $request->indirizzo;
+            $shop->citta = $request->citta;
             $shop->presente = $request->presente;
             if(isset($file)){
                 $shop->imgProfilo = $file;
@@ -168,6 +165,25 @@ class SellerController extends Controller
         // redirect
         Session::flash('message', 'Successfully deleted the shop!');
         return Redirect::to('/admin/shops');
+    }
+
+    public function getAuthUserId()
+    {
+        return Auth::user()->id;
+    }
+
+    public static function getShopsForSelect(){
+        
+        $shops = seller::where('user_id', Auth::user()->id)->pluck('nomeNegozio','id');
+        
+        return $shops;   
+    }
+
+    /* REDIS */
+
+    public static function AllShops(){
+
+        return seller::presente()->get();
     }
 
 }

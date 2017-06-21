@@ -10,7 +10,7 @@ use Symfony\Component\Console\Input\InputArgument;
 class TinkerCommand extends Command
 {
     /**
-     * Artisan commands to include in the tinker shell.
+     * artisan commands to include in the tinker shell.
      *
      * @var array
      */
@@ -41,9 +41,7 @@ class TinkerCommand extends Command
     {
         $this->getApplication()->setCatchExceptions(false);
 
-        $config = new Configuration([
-            'updateCheck' => 'never'
-        ]);
+        $config = new Configuration;
 
         $config->getPresenter()->addCasters(
             $this->getCasters()

@@ -183,9 +183,6 @@ HELP
     {
         $history = $this->readline->listHistory();
 
-        // don't show the current `history` invocation
-        array_pop($history);
-
         if ($show) {
             list($start, $end) = $this->extractRange($show);
             $length = $end - $start;

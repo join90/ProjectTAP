@@ -16,18 +16,10 @@
             <a href="javascript:;" data-toggle="collapse" data-target="#demo2">Prodotti <i class="fa fa-fw fa-caret-down"></i></a>
             <ul id="demo2" class="collapse">
                 <li>
-                    <a href="#">Mostra</a>
+                    <a href="{{ url('/admin/products') }}">Mostra</a>
                 </li>
                 <li>
-                    <a href="#">Nuova</a>
-                </li>
-            </ul>
-        </li>
-        <li>
-            <a href="javascript:;" data-toggle="collapse" data-target="#demo3">Ordini <i class="fa fa-fw fa-caret-down"></i></a>
-            <ul id="demo3" class="collapse">
-                <li>
-                    <a href="#">Mostra</a>
+                    <a href="{{ url('/admin/products/new') }}">Nuovo</a>
                 </li>
             </ul>
         </li>

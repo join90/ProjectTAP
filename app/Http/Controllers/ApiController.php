@@ -10,8 +10,7 @@ class ApiController extends Controller
         
         $products = RedisController::ScanProductsForShop('*P_*'); //restituisce tutti i prodotti 
 
-        return $products;
-        //return view dario  
+        return view('layout/frontend/products/products', ['products' => $products]); //Dario 
     }
 
     public function GetProductsShop(Request $request, $seller_id){

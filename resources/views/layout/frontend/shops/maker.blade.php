@@ -53,7 +53,7 @@
             console.log(locations);
   		      for (i = 0; i < locations.length; i++) {  
   		        
-              if(calculateDistance(pos,locations[i][1],locations[i][2]) <= 5){
+              if(calculateDistance(pos,locations[i][1],locations[i][2]) <= 80){
                 
                 marker = new google.maps.Marker({
                   position: new google.maps.LatLng(locations[i][1], locations[i][2]),
