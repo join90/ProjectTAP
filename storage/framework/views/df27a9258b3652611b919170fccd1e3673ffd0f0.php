@@ -36,7 +36,7 @@
                                     <td><?php echo e($shop['id']); ?></td>
                                     <td>
                                         <?php if(isset($shop['imgProfilo'])): ?>
-                                            <img src="<?php echo e(asset('storage/'.$shop['imgProfilo'])); ?>" style="width: 50px; height: auto;">
+                                            <img src="data:image/png;base64,<?php echo e(base64_encode($shop['imgProfilo'])); ?>" style="width: 50px; height: auto;">
                                         <?php endif; ?>
                                     </td>
                                     <td><?php echo e($shop['nomeNegozio']); ?></td>

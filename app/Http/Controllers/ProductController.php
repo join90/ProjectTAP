@@ -27,6 +27,10 @@ class ProductController extends Controller
                             ->where('sellers.user_id', $this->getAuthUserId())
                             ->get();
 
+        foreach ($products as $product) {
+            $product->imgProfilo = BlobController::downloadBlob('prodotti',$product->imgProfilo);    
+        }
+
         return view('layout.backend.products.index', ['products' => $products]);
 
     }
@@ -65,8 +69,9 @@ class ProductController extends Controller
         // controllo se l'utente ha caricato l'immagine del profilo
         if ($request->hasFile('imgProfilo')) {
             if ($request->file('imgProfilo')->isValid()) {
-                $folder = 'uploads';
-                $file = $request->imgProfilo->store($folder);
+                //$folder = 'uploads';
+                $file = $request->imgProfilo;
+                BlobController::createBlob($file, 'prodotti', basename($file));
             }
         }
 
@@ -88,7 +93,7 @@ class ProductController extends Controller
             $product->disponibilita = $request->disponibilita;
             $product->PrezzoVecchio = $request->PrezzoVecchio;
             if(isset($file)){
-                $product->imgProfilo = $file;
+                $product->imgProfilo = basename($file);
             }
             $product->save();
 
@@ -131,8 +136,9 @@ class ProductController extends Controller
         // controllo se l'utente ha caricato l'immagine del profilo
         if ($request->hasFile('imgProfilo')) {
             if ($request->file('imgProfilo')->isValid()) {
-                $folder = 'uploads';
-                $file = $request->imgProfilo->store($folder);
+                //$folder = 'uploads';
+                $file = $request->imgProfilo;
+                BlobController::createBlob($file, 'prodotti', basename($file));
             }
         }
 
@@ -153,7 +159,7 @@ class ProductController extends Controller
             $product->disponibilita = $request->disponibilita;
             $product->PrezzoVecchio = $request->PrezzoVecchio;
             if(isset($file)){
-                $product->imgProfilo = $file;
+                $product->imgProfilo = basename($file);
             }
             $product->save();
 

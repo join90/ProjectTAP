@@ -38,7 +38,7 @@
                                     <td>{{ $shop['id'] }}</td>
                                     <td>
                                         @if(isset($shop['imgProfilo']))
-                                            <img src="{{ asset('storage/'.$shop['imgProfilo']) }}" style="width: 50px; height: auto;">
+                                            <img src="data:image/png;base64,{{ base64_encode($shop['imgProfilo']) }}" style="width: 50px; height: auto;">
                                         @endif
                                     </td>
                                     <td>{{ $shop['nomeNegozio'] }}</td>

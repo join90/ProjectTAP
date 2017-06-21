@@ -20,6 +20,14 @@ class SellerController extends Controller
         
         $shops = seller::where('user_id', $this->getAuthUserId())->get();
 
+        //dd($shops);
+
+        foreach ($shops as $shop) {
+            //dd($shop->imgProfilo);
+            $shop->imgProfilo = BlobController::downloadBlob('negozi',$shop->imgProfilo);    
+        }
+
+
         return view('layout.backend.shops.index', ['shops' => $shops]);
 
     }
@@ -57,8 +65,12 @@ class SellerController extends Controller
         // controllo se l'utente ha caricato l'immagine del profilo
         if ($request->hasFile('imgProfilo')) {
             if ($request->file('imgProfilo')->isValid()) {
-                $folder = 'uploads';
-                $file = $request->imgProfilo->store($folder);
+                //$folder = 'uploads';
+
+                $file = $request->imgProfilo;
+                dd($file);
+                //$file = $request->imgProfilo->store($folder);
+                BlobController::createBlob($file, 'negozi', basename($file));
             }
         }
 
@@ -82,7 +94,7 @@ class SellerController extends Controller
             $shop->citta = $request->citta;
             $shop->presente = $request->presente;
             if(isset($file)){
-                $shop->imgProfilo = $file;
+                $shop->imgProfilo = basename($file);
             }
             $shop->save();
 
@@ -124,8 +136,10 @@ class SellerController extends Controller
         // controllo se l'utente ha caricato l'immagine del profilo
         if ($request->hasFile('imgProfilo')) {
             if ($request->file('imgProfilo')->isValid()) {
-                $folder = 'uploads';
-                $file = $request->imgProfilo->store($folder);
+                //$folder = 'uploads';
+                $file = $request->imgProfilo;
+                $seller = seller::find($request->id);
+                BlobController::createBlob($file, 'negozi', basename($file));
             }
         }
 
@@ -147,7 +161,7 @@ class SellerController extends Controller
             $shop->citta = $request->citta;
             $shop->presente = $request->presente;
             if(isset($file)){
-                $shop->imgProfilo = $file;
+                $shop->imgProfilo = basename($file);
             }
             $shop->save();
 

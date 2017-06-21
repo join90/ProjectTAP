@@ -6,19 +6,19 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'System' => array($vendorDir . '/phpseclib/phpseclib/phpseclib'),
     'Prophecy\\' => array($vendorDir . '/phpspec/prophecy/src'),
     'Parsedown' => array($vendorDir . '/erusev/parsedown'),
-    'Net' => array($vendorDir . '/phpseclib/phpseclib/phpseclib'),
-    'Namshi\\JOSE' => array($vendorDir . '/namshi/jose/src'),
+    'PEAR' => array($vendorDir . '/pear/pear_exception'),
     'Mockery' => array($vendorDir . '/mockery/mockery/library'),
-    'Math' => array($vendorDir . '/phpseclib/phpseclib/phpseclib'),
+    'Mail_mimeDecode' => array($vendorDir . '/pear/mail_mime-decode'),
+    'Mail' => array($vendorDir . '/pear/mail_mime'),
     'JakubOnderka\\PhpConsoleHighlighter' => array($vendorDir . '/jakub-onderka/php-console-highlighter/src'),
     'JakubOnderka\\PhpConsoleColor' => array($vendorDir . '/jakub-onderka/php-console-color/src'),
-    'File' => array($vendorDir . '/phpseclib/phpseclib/phpseclib'),
+    'HTTP_Request2' => array($vendorDir . '/pear/http_request2'),
     'Doctrine\\DBAL\\' => array($vendorDir . '/doctrine/dbal/lib'),
     'Doctrine\\Common\\Lexer\\' => array($vendorDir . '/doctrine/lexer/lib'),
     'Doctrine\\Common\\Inflector\\' => array($vendorDir . '/doctrine/inflector/lib'),
     'Doctrine\\Common\\Collections\\' => array($vendorDir . '/doctrine/collections/lib'),
-    'Crypt' => array($vendorDir . '/phpseclib/phpseclib/phpseclib'),
+    'Console' => array($vendorDir . '/pear/console_getopt'),
+    '' => array($vendorDir . '/pear/pear-core-minimal/src'),
 );
