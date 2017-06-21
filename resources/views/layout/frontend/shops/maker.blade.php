@@ -1,35 +1,46 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Geolocation</title>
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
-    <meta charset="utf-8">
-    <style>
-      /* Always set the map height explicitly to define the size of the div
-       * element that contains the map. */
-      #map {
-        height: 60%;
-        width: 50%;
-      }
-      /* Optional: Makes the sample page fill the window. */
-      html, body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-      }
-    </style>
-  </head>
-  <body>
-    <div id="map"></div>
+@extends('layout/frontend/partials/navbar')
+
+@section('subpagestyle')
+  <style>
+    .btn {
+      /*position: absolute;
+      bottom: 10px;*/
+      background: #999999;
+      padding: 1.2em 1.5em;
+      border: none;
+      /*text-transform: UPPERCASE;*/
+      font-weight: bold;
+      color: #000;
+      -webkit-transition: background .3s ease;
+              transition: background .3s ease; }
+
+      .add-to-cart:hover, .like:hover {
+        background: #aaaaaa;
+        color: #000; }
+    #map {
+            height: 60%;
+            width: 50%;
+          }
+          /* Optional: Makes the sample page fill the window. */
+          html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+          }
+  </style>
+@stop
+
+@section('content')
+<div id="map"></div>
     <script>
       // Note: This example requires that you consent to location sharing when
       // prompted by your browser. If you see the error "The Geolocation service
       // failed.", it means you probably did not give permission for the browser to
-      // locate you.
+      // locate you.      
       var map, infoWindow;
       
       function initMap() {
-   	
+    
         map = new google.maps.Map(document.getElementById('map'), {
           center: {lat: -34.397, lng: 150.644},
           zoom: 6
@@ -44,15 +55,15 @@
               lng: position.coords.longitude
             };
             
-        		var locations = {!! json_encode($makers) !!};
-      		  locations[locations.length] = ['sono qui!', pos.lat, pos.lng];
-      		  
+            var locations = {!! json_encode($makers) !!};
+            locations[locations.length] = ['sono qui!', pos.lat, pos.lng];
+            
             map.setCenter(pos); //setta la posizione dell'utente al centro
 
             var marker, i;
             console.log(locations);
-  		      for (i = 0; i < locations.length; i++) {  
-  		        
+            for (i = 0; i < locations.length; i++) {  
+              
               if(calculateDistance(pos,locations[i][1],locations[i][2]) <= 80){
                 
                 marker = new google.maps.Marker({
@@ -68,7 +79,7 @@
                   }
                 })(marker, i));  
               }     
-  		      } 
+            } 
           }, function() {
             handleLocationError(true, infoWindow, map.getCenter());
           });
@@ -122,8 +133,15 @@
     <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCKE7vsMq2omJ9o5eAk9EEm2qvrInT36Ww&callback=initMap">
     </script>
-  </body>
-</html>
+
+    <div> Elenco rivenditori: </div>
+    
+    @foreach($makers as $maker)
+        <button class="btn" type="button" onclick="location.href='/products/index/{{$maker['id']}}'">{{$maker['nomeNegozio']}}</button><p>&nbsp</p>
+    @endforeach
+@stop
+
+
 
 
 

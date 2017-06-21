@@ -10,14 +10,21 @@ class ApiController extends Controller
         
         $products = RedisController::ScanProductsForShop('*P_*'); //restituisce tutti i prodotti 
 
-        return view('layout/frontend/products/products', ['products' => $products]); //Dario 
+        return view('layout/frontend/products/products', ['products' => $products, 'seller_id' => 0]); //Dario 
+    }
+
+    public function ShowCart(Request $request){ //Dario
+        
+        $products = RedisController::ScanProductsForShop('*P_*'); //restituisce tutti i prodotti 
+
+        return view('layout/frontend/users/cart', ['products' => $products]); //Dario 
     }
 
     public function GetProductsShop(Request $request, $seller_id){
 
     	$products = RedisController::ScanProductsForShop('*SP_'.$seller_id.'*'); //restituisce i prodotti filtrati per negozio
 
-    
+        return view('layout/frontend/products/products', ['products' => $products, 'seller_id' => $seller_id]); //Dario
     	//return view dario
     }
 
@@ -134,7 +141,7 @@ class ApiController extends Controller
 
         foreach ($shops as $shop) {
             
-            $makers = array_merge($makers, [array($shop['nomeNegozio'],$shop['latitudine'],$shop['longitudine'])]);
+            $makers = array_merge($makers, [array("nomeNegozio" => $shop['nomeNegozio'], $shop['latitudine'], $shop['longitudine'], "id" => $shop['id'])]);
         }
 
         //dd($makers);    

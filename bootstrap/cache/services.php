@@ -28,8 +28,8 @@
     24 => 'App\\Providers\\AuthServiceProvider',
     25 => 'App\\Providers\\EventServiceProvider',
     26 => 'App\\Providers\\RouteServiceProvider',
-    27 => 'Tymon\\JWTAuth\\Providers\\JWTAuthServiceProvider',
-    28 => 'Collective\\Html\\HtmlServiceProvider',
+    27 => 'Collective\\Html\\HtmlServiceProvider',
+    28 => 'App\\Providers\\AzureStorageServiceProvider',
   ),
   'eager' => 
   array (
@@ -47,7 +47,7 @@
     11 => 'App\\Providers\\AuthServiceProvider',
     12 => 'App\\Providers\\EventServiceProvider',
     13 => 'App\\Providers\\RouteServiceProvider',
-    14 => 'Tymon\\JWTAuth\\Providers\\JWTAuthServiceProvider',
+    14 => 'App\\Providers\\AzureStorageServiceProvider',
   ),
   'deferred' => 
   array (

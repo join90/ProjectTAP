@@ -166,11 +166,23 @@
 		    opacity: 1;
 		    -webkit-transform: scale(1);
 		            transform: scale(1); } }*/
+
+	/* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 60%;
+        width: 50%;
+      }
     </style>
 @stop
 
 @section('content')
 
+@if($seller_id>0)
+	<div>
+		<p>Elenco prodotti del negozio con id {{$seller_id}}: &nbsp</p>
+	</div>
+@endif
 
 @foreach($products as $product)
 	<div class="container">
@@ -180,7 +192,7 @@
 					<div class="preview col-md-6">
 						
 						<div class="preview-pic tab-content">
-						  <div class="tab-pane active" id="pic-1"><img src="{{ $product->nomefile }}"/></div>
+						  <div class="tab-pane active" id="pic-1"><img src="{{ $product['imgProfilo'] }}"/></div>
 		<!--			  <div class="tab-pane" id="pic-2"><img src="http://placekitten.com/400/252" /></div>
 						  <div class="tab-pane" id="pic-3"><img src="http://placekitten.com/400/252" /></div>
 						  <div class="tab-pane" id="pic-4"><img src="http://placekitten.com/400/252" /></div>
@@ -196,7 +208,7 @@
 						</div>
 					</div>
 					<div class="details col-md-6">
-						<h3 class="product-title">{{ $product->titolo }}</h3>
+						<h3 class="product-title">{{ $product['titolo'] }}</h3>
 				<!--		<div class="rating">
 							<div class="stars">
 								<span class="fa fa-star checked"></span>
@@ -207,8 +219,8 @@
 							</div>
 							<span class="review-no">41 reviews</span>
 						</div> -->
-						<p class="product-description">{{ $product->descrizione }}</p>
-						<h4 class="price">prezzo: <span>{{ $product->prezzo }}</span></h4>
+						<p class="product-description">{{ $product['provenienza'] }}</p>
+						<h4 class="price">prezzo: <span>{{ $product['prezzo'] }}</span></h4>
 				<!--		<p class="vote"><strong>91%</strong> of buyers enjoyed this product! <strong>(87 votes)</strong></p> -->
 		<!--				<h5 class="sizes">sizes:
 							<span class="size" data-toggle="tooltip" title="small">s</span>
