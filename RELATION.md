@@ -18,7 +18,7 @@ L'idea del progetto riguarda un gestionale per fruttivendoli, allo scopo di faci
 
 L'applicazione utilizza i servizi di Microsoft Azure per svolgere le operazioni specificate in questo paragrafo.
 
-# Architettura Azure
+## Architettura Azure
 
 ## Descrizione del Progetto
 
