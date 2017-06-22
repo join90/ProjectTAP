@@ -27,19 +27,17 @@ class ApiController extends Controller
             //dd($products);
         return view('layout/frontend/products/products', ['products' => $products, 'seller_id' => 0]); //Dario 
     }
- 
 
     public function ShowCart(Request $request){ //Dario
         
         $products = RedisController::ScanProductsForShop('*P_*'); //restituisce tutti i prodotti         
 
-        return view('layout/frontend/users/cart', ['products' => $products]); //Dario
+        return view('layout/frontend/users/cart', ['products' => $products]); //Dario 
     }
 
     public function GetProductsShop(Request $request, $seller_id){
 
     	$products = RedisController::ScanProductsForShop('*SP_'.$seller_id.'*'); //restituisce i prodotti filtrati per negozio
-
         
         foreach ($products as &$product) {
             $product['blob'] = BlobController::downloadBlob('prodotti',$product['imgProfilo']);
