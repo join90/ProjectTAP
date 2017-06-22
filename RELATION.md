@@ -32,5 +32,7 @@ All'interno del "WebJobs" viene caricato un file bach con all'interno il comando
 Questo comando avvia lo scheduler di laravel che fa partire il sync su Redis per le risorse che risiedono nel database MySQL.
 <p align="left"><img src="https://s22.postimg.org/wrqh9yp1t/updateredis.png"></p>
 
-Un esempio di funzione di Redis 
+Un esempio che ci consente di interagire con Redis è la funzione "scan":
+
+<p align="left"><img src="https://postimg.org/image/3s3hluuez/79c3e812/"</p>
 
