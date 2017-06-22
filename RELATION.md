@@ -33,6 +33,5 @@ Questo comando avvia lo scheduler di laravel che fa partire il sync su Redis per
 <p align="left"><img src="https://s22.postimg.org/wrqh9yp1t/updateredis.png"</p>
 
 Un esempio che ci consente di interagire con Redis è la funzione "scan":
-
-<p align="left"><img src="https://postimg.org/image/3s3hluuez/79c3e812/"</p>
+<p align="left"><img src="https://s9.postimg.org/tnn851w8v/image_2017-06-22_15-36-15.png"</p>
 
