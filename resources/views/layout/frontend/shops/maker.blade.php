@@ -22,17 +22,27 @@
             width: 50%;
           }
           /* Optional: Makes the sample page fill the window. */
-          html, body {
+       /*   html, body {
             height: 100%;
             margin: 0;
             padding: 0;
-          }
+          }*/
   </style>
 @stop
 
-@section('content')
-<div id="map"></div>
-    <script>
+@section('content')   
+    <div> Elenco rivenditori: </div>
+
+    @foreach($makers as $maker)
+        <button class="btn" type="button" onclick="location.href='/products/index/{{$maker[2]}}'">{{$maker[3]}}</button><p>&nbsp</p>
+    @endforeach
+ <h3><p style="text-align: center;">Mappa dei rivenditori</p></h3>
+@stop
+
+@section('content2')
+
+<div id="map"></div> 
+  <script>
       // Note: This example requires that you consent to location sharing when
       // prompted by your browser. If you see the error "The Geolocation service
       // failed.", it means you probably did not give permission for the browser to
@@ -56,25 +66,28 @@
             };
             
             var locations = {!! json_encode($makers) !!};
-            locations[locations.length] = ['sono qui!', pos.lat, pos.lng];
+
+            locations[locations.length] = [pos.lat, pos.lng, 0, 'tu sei qui!'];
             
             map.setCenter(pos); //setta la posizione dell'utente al centro
 
             var marker, i;
             console.log(locations);
             for (i = 0; i < locations.length; i++) {  
-              
-              if(calculateDistance(pos,locations[i][1],locations[i][2]) <= 80){
+              console.log("i: "+i+"lat: "+locations[i][0]+" lon: "+locations[i][1]+" neg: "+locations[i][3]);
+              if(calculateDistance(pos,locations[i][0],locations[i][1]) <= 80){
+                //console.log("i: "+i+"lat: "+locations[i][1]+" lon: "+locations[i][2]+" neg: "+locations[i][0]);
                 
                 marker = new google.maps.Marker({
-                  position: new google.maps.LatLng(locations[i][1], locations[i][2]),
-                  map: map
+                  position: new google.maps.LatLng(locations[i][0], locations[i][1]),                 
+                  map: map,
+                  //title: String(locations[i][3])
                 
                 });
 
                 google.maps.event.addListener(marker, 'click', (function(marker, i) {
                   return function() {
-                    infoWindow.setContent(locations[i][0]);
+                    infoWindow.setContent(locations[i][3]);
                     infoWindow.open(map, marker);
                   }
                 })(marker, i));  
@@ -128,17 +141,11 @@
  
         return distanceKM;
       }
-
     </script>
+
     <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCKE7vsMq2omJ9o5eAk9EEm2qvrInT36Ww&callback=initMap">
     </script>
-
-    <div> Elenco rivenditori: </div>
-    
-    @foreach($makers as $maker)
-        <button class="btn" type="button" onclick="location.href='/products/index/{{$maker['id']}}'">{{$maker['nomeNegozio']}}</button><p>&nbsp</p>
-    @endforeach
 @stop
 
 

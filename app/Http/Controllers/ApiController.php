@@ -141,7 +141,7 @@ class ApiController extends Controller
 
         foreach ($shops as $shop) {
             
-            $makers = array_merge($makers, [array("nomeNegozio" => $shop['nomeNegozio'], $shop['latitudine'], $shop['longitudine'], "id" => $shop['id'])]);
+            $makers = array_merge($makers, [array($shop['latitudine'], $shop['longitudine'],  $shop['id'], $shop['nomeNegozio'])]);
         }
 
         //dd($makers);    

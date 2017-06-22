@@ -2,6 +2,14 @@
 
 @section('pagestyle')
 
+  <style>
+    .mappa { 
+      position: relative;     
+      height: 500px;
+      left: 25%;      
+    }
+  </style>
+
   @yield('subpagestyle')
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug 
 <link href="http://getbootstrap.com/assets/css/ie10-viewport-bug-workaround.css" 
@@ -42,7 +50,7 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
  <!--  <li class="active">--><li><a href="/products/index">Prodotti <span class="sr-only">(current)</span></a></li>
- <li><a href="/shops/makers">Mappa Rivenditori <span class="sr-only">(current)</span></a></li>
+ <li><a href="/shops/makers"> Mappa Rivenditori <span class="sr-only">(current)</span></a></li>
         <li><a href="#"></a></li>
   <!--  <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span class="caret"></span></a>
@@ -74,5 +82,9 @@
 <div class="container">
       @yield('content')
 </div>  
+
+<div class="mappa">
+ @yield('content2')
+</div>
 
 @stop
