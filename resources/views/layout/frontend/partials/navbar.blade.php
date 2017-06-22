@@ -2,6 +2,14 @@
 
 @section('pagestyle')
 
+  <style>
+    .mappa { 
+      position: relative;     
+      height: 500px;
+      left: 25%;      
+    }
+  </style>
+
   @yield('subpagestyle')
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug 
 <link href="http://getbootstrap.com/assets/css/ie10-viewport-bug-workaround.css" 
@@ -36,13 +44,14 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>-->
-      <a class="navbar-brand" href="./home" style="color:red;">F & F</a>
+      <a class="navbar-brand" href="/users/home" style="color:red;">F & F</a>
     </div>
 
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
- <!--  <li class="active">--><li><a href="./products">Prodotti <span class="sr-only">(current)</span></a></li>
-        <li><a href="#">Storico Ordini</a></li>
+ <!--  <li class="active">--><li><a href="/products/index">Prodotti <span class="sr-only">(current)</span></a></li>
+ <li><a href="/shops/makers"> Mappa Rivenditori <span class="sr-only">(current)</span></a></li>
+        <li><a href="#"></a></li>
   <!--  <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
@@ -63,7 +72,7 @@
         <button type="submit" class="btn btn-default">Submit</button>
       </form> -->
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="#">Carrello</a></li>
+        <li><a href="/users/cart">Carrello</a></li>
       </ul>
     </div>
   </div>
@@ -73,5 +82,9 @@
 <div class="container">
       @yield('content')
 </div>  
+
+<div class="mappa">
+ @yield('content2')
+</div>
 
 @stop

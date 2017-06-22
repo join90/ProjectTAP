@@ -1,56 +1,35 @@
-@extends('layout/frontend/partials/navbar')
-
-@section('subpagestyle')
-  <style>
-    .btn {
-      /*position: absolute;
-      bottom: 10px;*/
-      background: #999999;
-      padding: 1.2em 1.5em;
-      border: none;
-      /*text-transform: UPPERCASE;*/
-      font-weight: bold;
-      color: #000;
-      -webkit-transition: background .3s ease;
-              transition: background .3s ease; }
-
-      .add-to-cart:hover, .like:hover {
-        background: #aaaaaa;
-        color: #000; }
-    #map {
-            height: 60%;
-            width: 50%;
-          }
-          /* Optional: Makes the sample page fill the window. */
-       /*   html, body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-          }*/
-  </style>
-@stop
-
-@section('content')   
-    <div><h3><p style="text-align: center;"> Elenco rivenditori: </p></h3></div>
-
-    @foreach($makers as $maker)
-        <button class="btn" type="button" onclick="location.href='/products/index/{{$maker[2]}}'">{{$maker[3]}}</button><p>&nbsp</p>
-    @endforeach
- <h3><p style="text-align: center;">Mappa dei rivenditori</p></h3>
-@stop
-
-@section('content2')
-
-<div id="map"></div> 
-  <script>
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Geolocation</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 60%;
+        width: 50%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+    <script>
       // Note: This example requires that you consent to location sharing when
       // prompted by your browser. If you see the error "The Geolocation service
       // failed.", it means you probably did not give permission for the browser to
-      // locate you.      
+      // locate you.
       var map, infoWindow;
       
       function initMap() {
-    
+   	
         map = new google.maps.Map(document.getElementById('map'), {
           center: {lat: -34.397, lng: 150.644},
           zoom: 6
@@ -65,34 +44,31 @@
               lng: position.coords.longitude
             };
             
-            var locations = {!! json_encode($makers) !!};
-
-            locations[locations.length] = [pos.lat, pos.lng, 0, 'tu sei qui!'];
-            
+        		var locations = {!! json_encode($makers) !!};
+      		  locations[locations.length] = ['sono qui!', pos.lat, pos.lng];
+      		  
             map.setCenter(pos); //setta la posizione dell'utente al centro
 
             var marker, i;
             console.log(locations);
-            for (i = 0; i < locations.length; i++) {  
-              console.log("i: "+i+"lat: "+locations[i][0]+" lon: "+locations[i][1]+" neg: "+locations[i][3]);
-              if(calculateDistance(pos,locations[i][0],locations[i][1]) <= 80){
-                //console.log("i: "+i+"lat: "+locations[i][1]+" lon: "+locations[i][2]+" neg: "+locations[i][0]);
+  		      for (i = 0; i < locations.length; i++) {  
+  		        
+              if(calculateDistance(pos,locations[i][1],locations[i][2]) <= 80){
                 
                 marker = new google.maps.Marker({
-                  position: new google.maps.LatLng(locations[i][0], locations[i][1]),                 
-                  map: map,
-                  //title: String(locations[i][3])
+                  position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+                  map: map
                 
                 });
 
                 google.maps.event.addListener(marker, 'click', (function(marker, i) {
                   return function() {
-                    infoWindow.setContent(locations[i][3]);
+                    infoWindow.setContent(locations[i][0]);
                     infoWindow.open(map, marker);
                   }
                 })(marker, i));  
               }     
-            } 
+  		      } 
           }, function() {
             handleLocationError(true, infoWindow, map.getCenter());
           });
@@ -141,14 +117,13 @@
  
         return distanceKM;
       }
-    </script>
 
+    </script>
     <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCKE7vsMq2omJ9o5eAk9EEm2qvrInT36Ww&callback=initMap">
     </script>
-@stop
-
-
+  </body>
+</html>
 
 
 
