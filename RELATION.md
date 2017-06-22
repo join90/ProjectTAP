@@ -27,4 +27,4 @@ Il frontend è stato implementato in modo da indirizzare le richieste degli uten
 
 Per il sync di Redis con MySql è stato creato un file bach con il comando di laravel: **php %HOME%\site\artisan schedule:run** .
  
-<p align="center"><img src="https://www.dropbox.com/home/updateredis.png"></p>
+<p align="center"><img src="https://www.dropbox.com/s/gozenfhexj4c6si/updateredis.png?dl=0"></p>
