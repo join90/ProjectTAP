@@ -38,7 +38,10 @@ class ApiController extends Controller
     public function GetProductsShop(Request $request, $seller_id){
 
     	$products = RedisController::ScanProductsForShop('*SP_'.$seller_id.'*'); //restituisce i prodotti filtrati per negozio
-
+        
+        foreach ($products as &$product) {
+            $product['blob'] = BlobController::downloadBlob('prodotti',$product['imgProfilo']);
+        }
         return view('layout/frontend/products/products', ['products' => $products, 'seller_id' => $seller_id]); //Dario    	
     }
 
