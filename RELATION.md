@@ -19,7 +19,7 @@ L'idea del progetto riguarda un gestionale per fruttivendoli, allo scopo di faci
 L'applicazione utilizza i servizi di Microsoft Azure per svolgere le operazioni specificate in questo paragrafo.
 
 ## Architettura Azure
-
+<p align="left"><img src="https://s24.postimg.org/f0v65nt51/project_architecture.png"></p>
 ## Descrizione del Progetto
 
 Il progetto si suddivide in due parti: il frontend e il backend. 
