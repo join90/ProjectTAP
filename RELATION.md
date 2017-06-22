@@ -1,9 +1,9 @@
 # Relazione del progetto di Technologies for Advanced Programming 
 
 Autori del progetto:
-* Salvo Ucchino
-* Giovanni Guerrieri
-* Dario Licciardello
+* Salvo Ucchino (backend + parte logica)
+* Giovanni Guerrieri (backend + parte logica)
+* Dario Licciardello (frontend)
 
 Il progetto è stato realizzato con il framework php di laravel utilizzando i servizi dell'architettura di Microsoft Azure. 
 
