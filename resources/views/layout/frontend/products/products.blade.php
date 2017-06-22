@@ -187,12 +187,19 @@
 @foreach($products as $product)
 	<div class="container">
 		<div class="card">
-			<div class="container-fliud">
+			<div class="container">
 				<div class="wrapper row">
-					<div class="preview col-md-6">
+					<div class="preview col-md-3">
 						
 						<div class="preview-pic tab-content">
-						  <div class="tab-pane active" id="pic-1"><img src="{{ $product['imgProfilo'] }}"/></div>
+						  <div class="tab-pane active" id="pic-1">
+						  		{{-- dd(($product['imgProfilo'])) --}}
+                                            <img src="data:image/png;base64,{{ base64_encode($product['blob']) }}" style="width: 500px; height: auto;">
+                            
+                            	{{--<img src="{{ $product['imgProfilo'] }}"/>--}}
+                           
+						  	
+						  </div>
 		<!--			  <div class="tab-pane" id="pic-2"><img src="http://placekitten.com/400/252" /></div>
 						  <div class="tab-pane" id="pic-3"><img src="http://placekitten.com/400/252" /></div>
 						  <div class="tab-pane" id="pic-4"><img src="http://placekitten.com/400/252" /></div>

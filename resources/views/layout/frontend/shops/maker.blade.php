@@ -31,7 +31,7 @@
 @stop
 
 @section('content')   
-    <div> Elenco rivenditori: </div>
+    <div><h3><p style="text-align: center;"> Elenco rivenditori: </p></h3></div>
 
     @foreach($makers as $maker)
         <button class="btn" type="button" onclick="location.href='/products/index/{{$maker[2]}}'">{{$maker[3]}}</button><p>&nbsp</p>

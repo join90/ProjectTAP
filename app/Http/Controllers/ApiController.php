@@ -3,19 +3,34 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+//use App\Product;
 
 class ApiController extends Controller
 {
     public function IndexProducts(Request $request){
         
         $products = RedisController::ScanProductsForShop('*P_*'); //restituisce tutti i prodotti 
-
+        /*$products = Product::select('*')                            
+                            ->get();
+        var_dump($products);*/
+        foreach ($products as &$product) {
+            //dd($shop->imgProfilo);
+            //dd($product['imgProfilo']);
+            //$product['blob'] = BlobController::downloadBlob('prodotti',$product['imgProfilo']);
+            $product['blob'] = BlobController::downloadBlob('prodotti',$product['imgProfilo']);
+            //dd($product['blob']);
+            //dd($products);
+            //var_dump($product['imgProfilo']);
+            //echo BlobController::downloadBlob('prodotti',$product['imgProfilo']);
+            //var_dump(BlobController::downloadBlob('prodotti',$product['imgProfilo']));    
+        }
+            //dd($products);
         return view('layout/frontend/products/products', ['products' => $products, 'seller_id' => 0]); //Dario 
     }
 
     public function ShowCart(Request $request){ //Dario
         
-        $products = RedisController::ScanProductsForShop('*P_*'); //restituisce tutti i prodotti 
+        $products = RedisController::ScanProductsForShop('*P_*'); //restituisce tutti i prodotti         
 
         return view('layout/frontend/users/cart', ['products' => $products]); //Dario 
     }
@@ -24,8 +39,7 @@ class ApiController extends Controller
 
     	$products = RedisController::ScanProductsForShop('*SP_'.$seller_id.'*'); //restituisce i prodotti filtrati per negozio
 
-        return view('layout/frontend/products/products', ['products' => $products, 'seller_id' => $seller_id]); //Dario
-    	//return view dario
+        return view('layout/frontend/products/products', ['products' => $products, 'seller_id' => $seller_id]); //Dario    	
     }
 
     public function IndexShops(Request $request) 
