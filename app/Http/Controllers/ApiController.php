@@ -10,6 +10,12 @@ class ApiController extends Controller
         
         $products = RedisController::ScanProductsForShop('*P_*'); //restituisce tutti i prodotti 
 
+
+        foreach ($products as $product) {
+            dd($product['imgProfilo']);    
+            $product['imgProfilo'] = BlobController::downloadBlob('prodotti', $product['imgProfilo']);
+        }
+
         return view('layout/frontend/products/products', ['products' => $products]); //Dario 
     }
 
@@ -17,7 +23,7 @@ class ApiController extends Controller
 
     	$products = RedisController::ScanProductsForShop('*SP_'.$seller_id.'*'); //restituisce i prodotti filtrati per negozio
 
-    
+        
     	//return view dario
     }
 
