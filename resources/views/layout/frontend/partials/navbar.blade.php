@@ -44,7 +44,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>-->
-      <a class="navbar-brand" href="./home" style="color:red;">F & F</a>
+      <a class="navbar-brand" href="/users/home" style="color:red;">F & F</a>
     </div>
 
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
