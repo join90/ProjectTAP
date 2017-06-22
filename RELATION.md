@@ -28,10 +28,12 @@ Il frontend è stato implementato in modo da indirizzare le richieste degli uten
 <p align="left"><img src="https://s1.postimg.org/wqmsw8ulb/image_2017-06-22_15-26-08.png"</p>
 
 All'interno del "WebJobs" viene caricato un file bach con all'interno il comando di laravel: 
+
 **php %HOME%\site\artisan schedule:run** .
+
 Questo comando avvia lo scheduler di laravel che fa partire il sync su Redis per le risorse che risiedono nel database MySQL.
 <p align="left"><img src="https://s22.postimg.org/wrqh9yp1t/updateredis.png"</p>
 
 Un esempio che ci consente di interagire con Redis è la funzione "scan":
 <p align="left"><img src="https://s9.postimg.org/tnn851w8v/image_2017-06-22_15-36-15.png"</p>
-
+Questa funzione consente di restituire i record che come chiave rispettano un preciso pattern,  
