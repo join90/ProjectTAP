@@ -27,9 +27,9 @@ Il frontend è stato implementato in modo da indirizzare le richieste degli uten
 
 <p align="left"><img src="https://s1.postimg.org/wqmsw8ulb/image_2017-06-22_15-26-08.png"</p>
 
-Per il sync di Redis con MySql è stato creato un file bach con all'interno il comando di laravel: 
+All'interno del "WebJobs" viene caricato un file bach con all'interno il comando di laravel: 
 **php %HOME%\site\artisan schedule:run** .
-Questo comando avvia lo scheduler di laravel che fa partire l'aggiornamento delle risorse che riesono nel database MySQL.
+Questo comando avvia lo scheduler di laravel che fa partire il sync su Redis per le risorse che risiedono nel database MySQL.
 <p align="left"><img src="https://s22.postimg.org/wrqh9yp1t/updateredis.png"></p>
 
 
