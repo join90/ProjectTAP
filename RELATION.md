@@ -20,6 +20,7 @@ L'applicazione utilizza i servizi di Microsoft Azure per svolgere le operazioni 
 
 ## Architettura Azure
 <p align="left"><img src="https://s24.postimg.org/f0v65nt51/project_architecture.png"></p>
+
 ## Descrizione del Progetto
 
 Il progetto si suddivide in due parti: il frontend e il backend. 
