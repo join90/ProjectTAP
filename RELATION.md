@@ -1,9 +1,9 @@
 # Relazione del progetto di Technologies for Advanced Programming 
 
 Autori del progetto:
-* Salvo Ucchino (backend + parte logica)
-* Giovanni Guerrieri (backend + parte logica)
-* Dario Licciardello (frontend)
+* Salvo Ucchino 
+* Giovanni Guerrieri 
+* Dario Licciardello 
 
 Il progetto è stato realizzato con il framework php di laravel utilizzando i servizi dell'architettura di Microsoft Azure. 
 
@@ -47,3 +47,25 @@ Per il backend sono stati creati dei controller per la gestione dei prodotti e d
 
 Un altro servizio di Azure che è stato usato per la gestione delle immagini è il "Blob Storage". Per usufruire di questo servizio, sono state caricate su laravel le API di Microsoft. Quest'ultime vengono richiamate all'interno di una classe chiamata "BlobController" per la creazione o il download dei blob. Infine sono stati creati due container (prodotti e negozi) dove all'interno vengono inseriti i blob opportuni.  
 
+# Frontend
+
+URL homepage: [Azure Websites](http://fastandfruit.azurewebsites.net/users/home)
+
+Il frontend si compone di una serie di semplici pagine web dinamiche che simulano il reale funzionamento di un portale di online shopping.
+
+La barra di navigazione in alto consente di spostarsi facilmente tra le varie sottopagine. 
+
+#### Pagina "Prodotti"
+
+Viene mostrato l'elenco dei prodotti disponibili all'acquisto di tutti i rivenditori. La funzione "aggiungi al carrello" non è implementata ed è presente a solo scopo informativo.
+
+#### Pagina "Mappa Rivenditori"
+
+E' suddivisa in due parti, nella prima è possibile vedere i rivenditori affiliati al sito mentre nella seconda è presente una mappa realtime in cui vengono mostrate le relative posizioni geografiche. Cliccando sui marker viene visualizzato il nome del negozio.
+Esempio di utilizzo di tale funzione potrebbe avvenire da parte cliente per trovare facilmente il rivenditore disponibile più vicino, qualora volesse andare di persona a prelevare i prodotti.
+Per sapere quali prodotti vengono offerti dai rivenditori è sufficiente cliccare sulle rispettive voci nell'elenco in alto.
+
+#### Pagina "Carrello"
+
+Poichè il carrello non viene attivamente gestito in tale pagina viene proposto un semplice elenco generato dinamicamente con alcuni prodotti casuali, relative quantità e importi propriamente calcolati.
+Anche in questo caso la funzione "procedi all'acquisto" è solamente indicativa.
