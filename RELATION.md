@@ -34,6 +34,8 @@ All'interno del "WebJobs" viene caricato un file bach con all'interno il comando
 Questo comando avvia lo scheduler di laravel che fa partire il sync su Redis per le risorse che risiedono nel database MySQL.
 <p align="left"><img src="https://s22.postimg.org/wrqh9yp1t/updateredis.png"</p>
 
+Redis viene usato non solo per la cache delle risorse, ma anche per la gestione delle "session".  
+
 Un esempio che ci consente di interagire con Redis è la funzione "scan". Questa funzione risiede nella classe "RedisController" e ci consente tramite un pattern, di restituire un sottoinsieme di chiavi. Infine, mediante un ciclo vengono ottenute le risorse tramite la funzione "get". 
 
 <p align="left"><img src="https://s9.postimg.org/tnn851w8v/image_2017-06-22_15-36-15.png"</p>
