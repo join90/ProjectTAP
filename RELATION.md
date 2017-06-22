@@ -38,10 +38,11 @@ Un esempio che ci consente di interagire con Redis è la funzione "scan". Questa
 
 <p align="left"><img src="https://s9.postimg.org/tnn851w8v/image_2017-06-22_15-36-15.png"</p>
 
-Per il backend sono stati creati dei controller per la gestione dei prodotti e dei negozi mediante le operazioni CRUD:
+Per il backend sono stati creati dei controller per la gestione dei prodotti e dei negozi tramite le operazioni CRUD:
+* create
+* read
+* update
+* delete
 
-* index
-* create
-* store
-* create
-* show
+Un altro servizio di Azure che è stato usato per la gestione delle immagini è il "Blob Storage". Per usufruire di questo servizio, sono state caricate su laravel le API di Microsoft. Quest'ultime vengono richiamate all'interno di una classe chiamata "BlobController" per la creazione o il download dei blob. Infine sono stati creati due container (prodotti e negozi) dove all'interno vengono inseriti i blob opportuni.  
+
