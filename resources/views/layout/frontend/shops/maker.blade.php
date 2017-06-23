@@ -3,9 +3,9 @@
 @section('subpagestyle')
   <style>
     .btn {
-      /*position: absolute;
-      bottom: 10px;*/
-      background: #999999;
+      position: relative;
+      right: -380px;
+      background: #888888;
       padding: 1.2em 1.5em;
       border: none;
       /*text-transform: UPPERCASE;*/
@@ -21,22 +21,37 @@
             height: 60%;
             width: 50%;
           }
-          /* Optional: Makes the sample page fill the window. */
-       /*   html, body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-          }*/
+    .elenco {
+      background: #ffdb99;
+      padding: 10px 0px 10px 10px;
+    }
+
   </style>
 @stop
 
 @section('content')   
-    <div><h3><p style="text-align: center;"> Elenco rivenditori: </p></h3></div>
+    <div><h3><p style="text-align: center;"><strong> Tutti i nostri rivenditori </strong></p></h3></div>
 
     @foreach($makers as $maker)
-        <button class="btn" type="button" onclick="location.href='/products/index/{{$maker[2]}}'">{{$maker[3]}}</button><p>&nbsp</p>
+      <div class="container elenco">
+        <div class="wrapper row">
+          <div class="col-md-6">
+            <h3><strong>{{$maker[3]}}</strong></h3>
+          </div>
+          <div class="col-md-2">
+            <button class="btn" type="button" onclick="location.href='/products/index/{{$maker[2]}}'">Vai ai prodotti</button>
+          </div>
+        <p>&nbsp</p>
+        </div>
+      </div>
     @endforeach
- <h3><p style="text-align: center;">Mappa dei rivenditori</p></h3>
+
+  <p>
+
+
+  </p>
+
+ <h3><p style="text-align: center;"><strong>Mappa dei rivenditori</strong></p></h3>
 @stop
 
 @section('content2')
@@ -72,18 +87,31 @@
             map.setCenter(pos); //setta la posizione dell'utente al centro
 
             var marker, i;
+            var image = 'http://icons.iconarchive.com/icons/graphicloads/100-flat/24/home-icon.png';
             console.log(locations);
             for (i = 0; i < locations.length; i++) {  
               console.log("i: "+i+"lat: "+locations[i][0]+" lon: "+locations[i][1]+" neg: "+locations[i][3]);
               if(calculateDistance(pos,locations[i][0],locations[i][1]) <= 80){
                 //console.log("i: "+i+"lat: "+locations[i][1]+" lon: "+locations[i][2]+" neg: "+locations[i][0]);
                 
-                marker = new google.maps.Marker({
-                  position: new google.maps.LatLng(locations[i][0], locations[i][1]),                 
-                  map: map,
-                  //title: String(locations[i][3])
-                
-                });
+                if(i==locations.length-1) {
+                    marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(locations[i][0], locations[i][1]),                 
+                    map: map,
+                    icon: image
+                    //title: String(locations[i][3])
+                  
+                  });
+                    //console.log("ksdlkjdl");
+                } else {
+                    marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(locations[i][0], locations[i][1]),                 
+                    map: map
+                    //icon: image
+                    //title: String(locations[i][3])
+                  
+                  });
+                }               
 
                 google.maps.event.addListener(marker, 'click', (function(marker, i) {
                   return function() {

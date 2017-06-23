@@ -37,12 +37,16 @@ class ApiController extends Controller
 
     public function GetProductsShop(Request $request, $seller_id){
 
-    	$products = RedisController::ScanProductsForShop('*SP_'.$seller_id.'*'); //restituisce i prodotti filtrati per negozio
+
+        $products = RedisController::ScanProductsForShop('*SP_'.$seller_id.'*'); //restituisce i prodotti filtrati per negozio
+
         
         foreach ($products as &$product) {
             $product['blob'] = BlobController::downloadBlob('prodotti',$product['imgProfilo']);
         }
+
         return view('layout/frontend/products/products', ['products' => $products, 'seller_id' => $seller_id]); //Dario    	
+
     }
 
     public function IndexShops(Request $request) 
@@ -87,17 +91,17 @@ class ApiController extends Controller
 
     public function GetProductsShopPromo(Request $request, $seller_id){
 
-    	$products = RedisController::ScanProductsForShop('*SP_'.$seller_id.'*'); 
+        $products = RedisController::ScanProductsForShop('*SP_'.$seller_id.'*'); 
 
-    	$productsPromo = array();
+        $productsPromo = array();
 
-    	foreach ($products as $product) {
-    		
-    		if(($product['promozione'] == 1) && ($product['presente'] == 1))
-    			$productsPromo = array_merge($productsPromo, array($product));
-    	}
-    	
-    	//return view dario
+        foreach ($products as $product) {
+            
+            if(($product['promozione'] == 1) && ($product['presente'] == 1))
+                $productsPromo = array_merge($productsPromo, array($product));
+        }
+        
+        //return view dario
     }
 
     public function GetProductsShopForDisp(Request $request, $seller_id){

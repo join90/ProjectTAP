@@ -165,6 +165,10 @@ shuffle($products);
 
 @section('content')
 
+	<div>
+		<p><strong>Il tuo carrello: &nbsp</strong></p>
+	</div>
+
 @for($idx=0; $idx<5; $idx++)
 	<div class="container">
 		<div class="card">
