@@ -56,6 +56,7 @@ Il backend è un semplice pannello di amministrazione dove il venditore può ges
 ### Le credenziali per accedere nel pannello amministrativo sono: 
 ### email: admin@email.it 
 ### password: 1234
+### [Backend Websites](http://fastandfruit.azurewebsites.net)
 
 
 ## Frontend
