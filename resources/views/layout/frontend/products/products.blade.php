@@ -112,8 +112,8 @@
 		    margin-left: 20px; }*/
 
 		.add-to-cart, .like {
-			/*position: absolute;
-			bottom: 10px;*/
+			position: absolute;
+			//bottom: 10px;
 		  background: #ff9f1a;
 		  padding: 1.2em 1.5em;
 		  border: none;
@@ -240,7 +240,7 @@
 							<span class="color green"></span>
 							<span class="color blue"></span>
 						</h5> -->
-						<div class="action">
+						<div class="action" style="height:100px;">
 							<button class="add-to-cart btn btn-default" type="button">Agg. al carrello</button>
 					<!--		<button class="like btn btn-default" type="button"><span class="fa fa-heart"></span></button> -->
 						</div>
