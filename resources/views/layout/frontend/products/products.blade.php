@@ -113,7 +113,7 @@
 
 		.add-to-cart, .like {
 			position: absolute;
-			//bottom: 10px;
+			bottom: 0px;
 		  background: #ff9f1a;
 		  padding: 1.2em 1.5em;
 		  border: none;
