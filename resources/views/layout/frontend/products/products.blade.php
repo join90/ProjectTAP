@@ -180,7 +180,7 @@
 
 @if($seller_id>0)
 	<div>
-		<p>Elenco prodotti del negozio con id {{$seller_id}}: &nbsp</p>
+		<p><strong>Elenco prodotti del negozio: &nbsp</strong></p>
 	</div>
 @endif
 

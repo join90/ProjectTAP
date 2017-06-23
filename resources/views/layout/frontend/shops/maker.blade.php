@@ -22,14 +22,15 @@
             width: 50%;
           }
     .elenco {
-      background: #ff9933;
+      background: #ffdb99;
+      padding: 10px 0px 10px 10px;
     }
 
   </style>
 @stop
 
 @section('content')   
-    <div><h3><p style="text-align: center;"> Tutti i nostri rivenditori </p></h3></div>
+    <div><h3><p style="text-align: center;"><strong> Tutti i nostri rivenditori </strong></p></h3></div>
 
     @foreach($makers as $maker)
       <div class="container elenco">
@@ -45,7 +46,12 @@
       </div>
     @endforeach
 
- <h3><p style="text-align: center;">Mappa dei rivenditori</p></h3>
+  <p>
+
+
+  </p>
+
+ <h3><p style="text-align: center;"><strong>Mappa dei rivenditori</strong></p></h3>
 @stop
 
 @section('content2')
@@ -81,18 +87,31 @@
             map.setCenter(pos); //setta la posizione dell'utente al centro
 
             var marker, i;
+            var image = 'http://icons.iconarchive.com/icons/graphicloads/100-flat/24/home-icon.png';
             console.log(locations);
             for (i = 0; i < locations.length; i++) {  
               console.log("i: "+i+"lat: "+locations[i][0]+" lon: "+locations[i][1]+" neg: "+locations[i][3]);
               if(calculateDistance(pos,locations[i][0],locations[i][1]) <= 80){
                 //console.log("i: "+i+"lat: "+locations[i][1]+" lon: "+locations[i][2]+" neg: "+locations[i][0]);
                 
-                marker = new google.maps.Marker({
-                  position: new google.maps.LatLng(locations[i][0], locations[i][1]),                 
-                  map: map,
-                  //title: String(locations[i][3])
-                
-                });
+                if(i==locations.length-1) {
+                    marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(locations[i][0], locations[i][1]),                 
+                    map: map,
+                    icon: image
+                    //title: String(locations[i][3])
+                  
+                  });
+                    //console.log("ksdlkjdl");
+                } else {
+                    marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(locations[i][0], locations[i][1]),                 
+                    map: map
+                    //icon: image
+                    //title: String(locations[i][3])
+                  
+                  });
+                }               
 
                 google.maps.event.addListener(marker, 'click', (function(marker, i) {
                   return function() {
