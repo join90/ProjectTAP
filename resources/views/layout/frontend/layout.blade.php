@@ -22,10 +22,7 @@
   </head>
 
   <body>
-
-    <div class="container">
-      @yield('navbar')
-    </div>
+          @yield('navbar')   
     
   <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>

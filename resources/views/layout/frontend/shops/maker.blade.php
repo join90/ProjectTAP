@@ -3,9 +3,9 @@
 @section('subpagestyle')
   <style>
     .btn {
-      /*position: absolute;
-      bottom: 10px;*/
-      background: #999999;
+      position: relative;
+      right: -380px;
+      background: #888888;
       padding: 1.2em 1.5em;
       border: none;
       /*text-transform: UPPERCASE;*/
@@ -21,21 +21,30 @@
             height: 60%;
             width: 50%;
           }
-          /* Optional: Makes the sample page fill the window. */
-       /*   html, body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-          }*/
+    .elenco {
+      background: #ff9933;
+    }
+
   </style>
 @stop
 
 @section('content')   
-    <div><h3><p style="text-align: center;"> Elenco rivenditori: </p></h3></div>
+    <div><h3><p style="text-align: center;"> Tutti i nostri rivenditori </p></h3></div>
 
     @foreach($makers as $maker)
-        <button class="btn" type="button" onclick="location.href='/products/index/{{$maker[2]}}'">{{$maker[3]}}</button><p>&nbsp</p>
+      <div class="container elenco">
+        <div class="wrapper row">
+          <div class="col-md-6">
+            <h3><strong>{{$maker[3]}}</strong></h3>
+          </div>
+          <div class="col-md-2">
+            <button class="btn" type="button" onclick="location.href='/products/index/{{$maker[2]}}'">Vai ai prodotti</button>
+          </div>
+        <p>&nbsp</p>
+        </div>
+      </div>
     @endforeach
+
  <h3><p style="text-align: center;">Mappa dei rivenditori</p></h3>
 @stop
 

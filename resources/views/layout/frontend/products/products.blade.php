@@ -227,7 +227,7 @@
 							<span class="review-no">41 reviews</span>
 						</div> -->
 						<p class="product-description">{{ $product['provenienza'] }}</p>
-						<h4 class="price">prezzo: <span>{{ $product['prezzo'] }}</span></h4>
+						<h4 class="price">prezzo: <span>€ {{ $product['prezzo'] }}</span></h4>
 				<!--		<p class="vote"><strong>91%</strong> of buyers enjoyed this product! <strong>(87 votes)</strong></p> -->
 		<!--				<h5 class="sizes">sizes:
 							<span class="size" data-toggle="tooltip" title="small">s</span>
