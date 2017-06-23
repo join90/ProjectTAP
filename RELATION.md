@@ -52,9 +52,11 @@ Il backend è un semplice pannello di amministrazione dove il venditore può ges
 
 [![Cattura3.png](https://s16.postimg.org/85vgvyqjp/Cattura3.png)](https://postimg.org/image/wz50wm9k1/)
 
+
 ** Le credenziali per accedere nel pannello amministrativo sono: **
 ** email: admin@email.it **
 ** password: 1234 ** 
+
 
 ## Frontend
 
