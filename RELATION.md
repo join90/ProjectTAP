@@ -2,7 +2,7 @@
 
 Autori del progetto:
 * Giovanni Guerrieri (backend - parte logica - architettura azure)
-* Dario Licciardello (frontend)
+* Dario Licciardello (frontend - parte logica)
 * Salvatore Ucchino (backend - parte logica - architettura azure)
 
 Il progetto è stato realizzato utilizzando il framework php Laravel e i servizi cloud Azure messi a disposizione da Microsoft. 
@@ -56,7 +56,7 @@ Il backend è un semplice pannello di amministrazione dove il venditore può ges
 
 URL homepage: [Azure Websites](http://fastandfruit.azurewebsites.net/users/home)
 
-Il frontend si compone di una serie di semplici pagine web dinamiche che simulano il reale funzionamento di un portale di online shopping.
+Il frontend si compone di una serie di semplici pagine web dinamiche e responsive che simulano il reale funzionamento di un portale di online shopping.
 
 La barra di navigazione in alto consente di spostarsi facilmente tra le varie sottopagine. 
 
